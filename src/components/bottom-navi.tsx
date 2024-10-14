@@ -6,13 +6,13 @@ type ItemType = {
 }
 
 type BottomNaviProps = {
-  items: ItemType[]
+  items?: ItemType[]
 }
 
 const BottomNavi = ({ items }: BottomNaviProps) => {
   return (
     <S.Wrapper>
-      {items.map(({ item, onClick }) => (
+      {items?.map(({ item, onClick }) => (
         <S.ItemWrapper>
           <button {...{ onClick }}>{item}</button>
         </S.ItemWrapper>

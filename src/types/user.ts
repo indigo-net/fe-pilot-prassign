@@ -1,4 +1,4 @@
-type StatusType = 0 | 1 | 2
+export type StatusType = 0 | 1 | 2
 
 export type UserType = {
   uuid: string
