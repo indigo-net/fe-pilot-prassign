@@ -1,8 +1,8 @@
 import { createBrowserRouter } from 'react-router-dom'
 import Home from '../../pages/home'
 import Manager from '../../pages/manager'
-import Member from '../../pages/member'
 import NotFound from '../../pages/not-found'
+import User from '../../pages/user'
 
 const router = createBrowserRouter([
   {
@@ -14,8 +14,8 @@ const router = createBrowserRouter([
     element: <Manager />,
   },
   {
-    path: '/member',
-    element: <Member />,
+    path: '/user',
+    element: <User />,
   },
   {
     path: '*',

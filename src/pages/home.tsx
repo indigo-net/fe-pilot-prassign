@@ -5,14 +5,14 @@ const Home = () => {
   const navigate = useNavigate()
 
   const onClickManager = () => navigate('/manager')
-  const onClickMember = () => navigate('/member')
+  const onClickUser = () => navigate('/user')
 
   return (
     <S.PageContainer>
       <h1>Home</h1>
       <S.ButtonContainer>
         <button onClick={onClickManager}>운영진</button>
-        <button onClick={onClickMember}>회원</button>
+        <button onClick={onClickUser}>회원</button>
       </S.ButtonContainer>
     </S.PageContainer>
   )
