@@ -14,5 +14,9 @@ const GlobalStyles = createGlobalStyle`
     overflow: hidden;
     background-color: #2F2F2F;
   }
+  div#root{
+    width: 100%;
+    height: 100%;
+  }
 `
 export default GlobalStyles
