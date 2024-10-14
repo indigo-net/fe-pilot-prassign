@@ -10,7 +10,7 @@ type ModeType = 'qr' | 'list'
 
 const users: UserType[] = [
   {
-    uuid: '45678765',
+    uuid: '45678ㅁㅎㅁ765',
     userName: 'ㅁㄴㅇㄹ',
     arriveTimeStamp: 123123,
     status: 0,
@@ -31,16 +31,60 @@ const users: UserType[] = [
     fcmToken: 'abcd',
   },
   {
-    uuid: '31234112',
+    uuid: '312341ㅋㅋㅊㅊ12',
     userName: '윤신3',
     arriveTimeStamp: 12321312312321,
     status: 0,
     fcmToken: 'abcd',
   },
   {
-    uuid: '12344321',
+    uuid: '123443ㅁㄴㅇㄹ21',
     userName: '윤신4',
     arriveTimeStamp: 12321313,
+    status: 0,
+    fcmToken: 'abcd',
+  },
+  {
+    uuid: '1234a3',
+    userName: '윤신5',
+    arriveTimeStamp: 1212321313,
+    status: 0,
+    fcmToken: 'abcd',
+  },
+
+  {
+    uuid: '1234as1231123',
+    userName: '윤신6',
+    arriveTimeStamp: 1212321313,
+    status: 0,
+    fcmToken: 'abcd',
+  },
+
+  {
+    uuid: '1234as1233123',
+    userName: '윤신7',
+    arriveTimeStamp: 1212321313,
+    status: 0,
+    fcmToken: 'abcd',
+  },
+  {
+    uuid: '112323',
+    userName: '윤신8',
+    arriveTimeStamp: 1212321313,
+    status: 0,
+    fcmToken: 'abcd',
+  },
+  {
+    uuid: '1234as123ㅁㄴㅇㄹaf123',
+    userName: '윤신9',
+    arriveTimeStamp: 1212321313,
+    status: 0,
+    fcmToken: 'abcd',
+  },
+  {
+    uuid: '12ㅁㄴㅇㄹaf123',
+    userName: '윤신10',
+    arriveTimeStamp: 1212321313,
     status: 0,
     fcmToken: 'abcd',
   },
@@ -60,7 +104,9 @@ const Manager = () => {
       <button onClick={onClickHome}>홈으로</button>
       <h1>Manager</h1>
 
-      {mode === 'qr' ? <QRBox /> : <UserList users={users} />}
+      <S.Content>
+        {mode === 'qr' ? <QRBox /> : <UserList users={users} />}
+      </S.Content>
       <BottomNavi
         items={[
           { item: 'qr', onClick: onClickQRItem },

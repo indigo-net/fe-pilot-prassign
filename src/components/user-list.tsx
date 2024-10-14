@@ -7,15 +7,19 @@ type UserListProps = {
 
 const UserList = ({ users }: UserListProps) => {
   return (
-    <S.List>
-      {users.map((user) => {
-        const uuid = user.uuid
-        const userName = user.userName
-        const status = user.status
-
-        return <S.User key={uuid}>{userName}</S.User>
-      })}
-    </S.List>
+    <S.ListWrapper>
+      <S.List>
+        {users.map((user) => {
+          const { uuid, userName, status } = user
+          return (
+            <S.User key={uuid}>
+              <span>{userName}</span>
+              <span>Status: {status}</span>
+            </S.User>
+          )
+        })}
+      </S.List>
+    </S.ListWrapper>
   )
 }
 export default UserList
