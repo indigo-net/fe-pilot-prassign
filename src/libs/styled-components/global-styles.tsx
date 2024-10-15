@@ -1,11 +1,88 @@
 import { createGlobalStyle } from 'styled-components'
+import SCDream1 from '../../assets/font/sc-dream1.otf'
+import SCDream2 from '../../assets/font/sc-dream2.otf'
+import SCDream3 from '../../assets/font/sc-dream3.otf'
+import SCDream4 from '../../assets/font/sc-dream4.otf'
+import SCDream5 from '../../assets/font/sc-dream5.otf'
+import SCDream6 from '../../assets/font/sc-dream6.otf'
+import SCDream7 from '../../assets/font/sc-dream7.otf'
+import SCDream8 from '../../assets/font/sc-dream8.otf'
+import SCDream9 from '../../assets/font/sc-dream9.otf'
+import { BREAK_POINT } from '../../styles/break-point'
+import { FONT_SIZE } from '../../styles/font-size'
+declare module '*.otf'
 
 const GlobalStyles = createGlobalStyle`
+  @font-face {
+    font-family: 'SCDream';
+    src: url(${SCDream1}) format('opentype');
+    font-weight: 100;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'SCDream';
+    src: url(${SCDream2}) format('opentype');
+    font-weight: 200;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'SCDream';
+    src: url(${SCDream3}) format('opentype');
+    font-weight: 300;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'SCDream';
+    src: url(${SCDream4}) format('opentype');
+    font-weight: 400;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'SCDream';
+    src: url(${SCDream5}) format('opentype');
+    font-weight: 500;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'SCDream';
+    src: url(${SCDream6}) format('opentype');
+    font-weight: 600;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'SCDream';
+    src: url(${SCDream7}) format('opentype');
+    font-weight: 700;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'SCDream';
+    src: url(${SCDream8}) format('opentype');
+    font-weight: 800;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'SCDream';
+    src: url(${SCDream9}) format('opentype');
+    font-weight: 900;
+    font-display: swap;
+  }
+
+  html{
+    font-family: 'SCDream', sans-serif;
+    font-size: 62.5%; 
+    @media screen and (max-width: ${BREAK_POINT.mobile}) {
+      font-size: 58%;
+    }
+    @media screen and (min-width: ${BREAK_POINT.tablet}) {
+      font-size: 62%;
+    }
+  }
   * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    border: none; 
+    border: none;
     outline: none;
   }
   body{
@@ -14,6 +91,7 @@ const GlobalStyles = createGlobalStyle`
     overflow: hidden;
     background-color: #2F2F2F;
     color: white;
+    font-size: ${FONT_SIZE.regular}
   }
   div#root{
     width: 100%;
