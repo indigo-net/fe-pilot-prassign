@@ -3,6 +3,21 @@ import { COLOR } from '../../styles/color'
 import { FONT_SIZE } from '../../styles/font-size'
 import { FONT_WEIGHT } from '../../styles/font-weight'
 
+export const SIZE_CSS = {
+  default: css`
+    width: 14rem;
+  `,
+  big: css`
+    width: 18rem;
+  `,
+  fit: css`
+    width: fit-content;
+    max-width: 100%;
+  `,
+  full: css`
+    width: 100%;
+  `,
+}
 export const VARIANT_CSS = {
   primary: css`
     background-color: ${COLOR.white};
@@ -24,16 +39,14 @@ export const VARIANT_CSS = {
 
 type ButtonWrapperProps = {
   $variant: keyof typeof VARIANT_CSS
+  $size: keyof typeof SIZE_CSS
 }
 const ButtonWrapper = styled.button<ButtonWrapperProps>`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: fit-content;
-  min-width: 20rem;
-  height: fit-content;
-  padding: 0.5rem 1rem;
-  margin: 0 0 8px 0;
+  height: 4rem;
+  margin-bottom: 8px;
   border-radius: 5px;
   text-align: center;
   cursor: pointer;
@@ -44,10 +57,14 @@ const ButtonWrapper = styled.button<ButtonWrapperProps>`
     box-shadow: none;
   }
   ${({ $variant }) => VARIANT_CSS[$variant]}
+  ${({ $size }) => SIZE_CSS[$size]}
 `
 const ButtonText = styled.span`
   font-size: ${FONT_SIZE.regular};
   font-weight: ${FONT_WEIGHT.regular};
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `
 export const S = {
   ButtonWrapper,
