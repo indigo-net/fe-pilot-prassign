@@ -1,10 +1,10 @@
 import type { HTMLAttributes } from 'react'
-import type { SIZE_CSS, VARIANT_CSS } from './button.s'
+import type { BUTTON_SIZE_CSS, BUTTON_VARIANT_CSS } from './button.s'
 import { S } from './button.s'
 
 type ButtonProps = HTMLAttributes<HTMLButtonElement> & {
-  variant?: keyof typeof VARIANT_CSS
-  size?: keyof typeof SIZE_CSS
+  variant?: keyof typeof BUTTON_VARIANT_CSS
+  size?: keyof typeof BUTTON_SIZE_CSS
   children: string
 }
 const Button = ({

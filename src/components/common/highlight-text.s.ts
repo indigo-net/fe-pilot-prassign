@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components'
 import { COLOR } from '../../styles/color'
 
-const UNDERLINE_CSS = {
+const HIGHLIGHT_TEXT_UNDERLINE_CSS = {
   true: css`
     text-decoration: underline;
   `,
@@ -9,7 +9,7 @@ const UNDERLINE_CSS = {
     text-decoration: none;
   `,
 } as const
-export const HIGHLIGHT_COLOR_CSS = {
+export const HIGHLIGHT_TEXT_COLOR_CSS = {
   skyBlue: css`
     color: ${COLOR.skyBlue.base};
   `,
@@ -28,7 +28,7 @@ export const HIGHLIGHT_COLOR_CSS = {
 } as const
 
 type MarkProps = {
-  $color: keyof typeof HIGHLIGHT_COLOR_CSS
+  $color: keyof typeof HIGHLIGHT_TEXT_COLOR_CSS
   $isUnderline: boolean
 }
 const Mark = styled.mark<MarkProps>`
@@ -37,8 +37,9 @@ const Mark = styled.mark<MarkProps>`
   background-color: transparent;
   font-size: inherit;
   font-weight: inherit;
-  ${({ $color }) => HIGHLIGHT_COLOR_CSS[$color]};
-  ${({ $isUnderline }) => UNDERLINE_CSS[$isUnderline ? 'true' : 'false']};
+  ${({ $color }) => HIGHLIGHT_TEXT_COLOR_CSS[$color]};
+  ${({ $isUnderline }) =>
+    HIGHLIGHT_TEXT_UNDERLINE_CSS[$isUnderline ? 'true' : 'false']};
 `
 
 export const S = { Mark }

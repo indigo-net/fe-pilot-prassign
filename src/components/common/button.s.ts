@@ -3,7 +3,7 @@ import { COLOR } from '../../styles/color'
 import { FONT_SIZE } from '../../styles/font-size'
 import { FONT_WEIGHT } from '../../styles/font-weight'
 
-export const SIZE_CSS = {
+export const BUTTON_SIZE_CSS = {
   default: css`
     width: 14rem;
   `,
@@ -18,7 +18,7 @@ export const SIZE_CSS = {
     width: 100%;
   `,
 }
-export const VARIANT_CSS = {
+export const BUTTON_VARIANT_CSS = {
   primary: css`
     background-color: ${COLOR.white};
     color: ${COLOR.black};
@@ -38,8 +38,8 @@ export const VARIANT_CSS = {
 }
 
 type ButtonWrapperProps = {
-  $variant: keyof typeof VARIANT_CSS
-  $size: keyof typeof SIZE_CSS
+  $variant: keyof typeof BUTTON_VARIANT_CSS
+  $size: keyof typeof BUTTON_SIZE_CSS
 }
 const ButtonWrapper = styled.button<ButtonWrapperProps>`
   display: flex;
@@ -48,6 +48,7 @@ const ButtonWrapper = styled.button<ButtonWrapperProps>`
   height: 4rem;
   margin-bottom: 8px;
   border-radius: 5px;
+  padding: 0.5rem 1rem;
   text-align: center;
   cursor: pointer;
   box-shadow: 0px 5px 1px rgba(0, 0, 0, 0.25);
@@ -56,8 +57,8 @@ const ButtonWrapper = styled.button<ButtonWrapperProps>`
     transform: translateY(4px);
     box-shadow: none;
   }
-  ${({ $variant }) => VARIANT_CSS[$variant]}
-  ${({ $size }) => SIZE_CSS[$size]}
+  ${({ $variant }) => BUTTON_VARIANT_CSS[$variant]}
+  ${({ $size }) => BUTTON_SIZE_CSS[$size]}
 `
 const ButtonText = styled.span`
   font-size: ${FONT_SIZE.regular};
