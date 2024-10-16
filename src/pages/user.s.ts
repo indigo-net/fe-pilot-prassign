@@ -1,21 +1,35 @@
 import styled from 'styled-components'
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
+const PageContainer = styled.div`
   width: 100%;
   height: 100%;
+  display: grid;
+  grid-template-rows: 1fr 20px;
+  align-items: center;
+  justify-content: center;
+  gap: 50px;
 `
-const StatusText = styled.p`
-  font-size: 18px;
-  margin-bottom: 20px;
-  margin-top: auto;
+
+const PageContentContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 80px;
+`
+
+const UserInfoContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
 `
 
 export const S = {
-  Container,
-  StatusText,
+  PageContainer,
+  PageContentContainer,
+  UserInfoContainer,
 }

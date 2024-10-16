@@ -1,72 +1,66 @@
-import { useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import BottomNavi from '../components/bottom-navi'
-import type { StatusType } from '../types/user'
+import BottomBar from '../components/common/bottom-bar'
+import HighlightText from '../components/common/highlight-text'
+import Typography from '../components/common/typography'
+import { STATUS } from '../constants/status'
+import type { StatusValueType } from '../types/status-code.type'
 import { S } from './user.s'
 
-const STATUS_CODE = {
-  REST: 0 as StatusType,
-  READY: 1 as StatusType,
-  GAME: 2 as StatusType,
-}
-
-const getStatusText = (status: StatusType): string => {
-  switch (status) {
-    case 0:
-      return '휴식'
-    case 1:
-      return '준비'
-    case 2:
-      return '게임 중'
-    default:
-      return '알 수 없음'
-  }
-}
-
 const User = () => {
-  const [status, setStatus] = useState<StatusType>(0)
+  const [statusValue, setStatusValue] = useState<StatusValueType>('REST')
   const navigate = useNavigate()
 
-  const user = {
-    uuid: '23456789ijnbvcfdrtyuj',
-    userName: 'Jeff',
-    status,
-    arriveTimeStamp: 123456789,
-  }
+  const onClickStatus = (status: StatusValueType) =>
+    setStatusValue(STATUS[status].value)
 
-  const onClickStatus = (status: StatusType) => setStatus(status)
-  const onClickExit = () => {
+  const onClickExit = useCallback(() => {
     localStorage.removeItem('authKey')
     navigate('/')
-  }
+  }, [navigate])
+
+  const statusNColorMap: Record<
+    StatusValueType,
+    'violet' | 'skyBlue' | 'purple' | 'pink' | 'alert'
+  > = useMemo(
+    () => ({
+      REST: 'violet',
+      READY: 'skyBlue',
+      GAME: 'purple',
+    }),
+    [],
+  )
 
   return (
-    <S.Container>
-      <S.StatusText>
-        {user.userName} 님의 상태는{' '}
-        <strong>{getStatusText(user.status)}</strong> 입니다.
-      </S.StatusText>
-      <BottomNavi
-        items={[
-          {
-            item: '휴식',
-            onClick: () => onClickStatus(STATUS_CODE.REST),
-          },
-          {
-            item: '준비',
-            onClick: () => onClickStatus(STATUS_CODE.READY),
-          },
-          {
-            item: '게임 중',
-            onClick: () => onClickStatus(STATUS_CODE.GAME),
-          },
-          {
-            item: '퇴장',
-            onClick: () => onClickExit(),
-          },
-        ]}
-      />
-    </S.Container>
+    <S.PageContainer>
+      <S.PageContentContainer>
+        <Typography variant="pageTitle">회원 페이지</Typography>
+        <S.UserInfoContainer>
+          <Typography variant="bigInfo">Jeff 님은</Typography>
+          <Typography variant="bigInfo">
+            <HighlightText color={statusNColorMap[statusValue]}>
+              {STATUS[statusValue].label}
+            </HighlightText>{' '}
+            상태입니다.
+          </Typography>
+        </S.UserInfoContainer>
+      </S.PageContentContainer>
+
+      <BottomBar.NavigationList>
+        {Object.values(STATUS).map((status) => (
+          <BottomBar.NavigationItem
+            key={status.value}
+            onClick={() => onClickStatus(status.value)}
+            color={statusNColorMap[status.value]}
+          >
+            {status.label}
+          </BottomBar.NavigationItem>
+        ))}
+        <BottomBar.NavigationItem color="alert" onClick={onClickExit}>
+          퇴장
+        </BottomBar.NavigationItem>
+      </BottomBar.NavigationList>
+    </S.PageContainer>
   )
 }
 export default User

@@ -1,4 +1,4 @@
-import type { HTMLAttributes, PropsWithChildren } from 'react'
+import { type HTMLAttributes, type PropsWithChildren } from 'react'
 import type { TYPOGRAPHY_VARIANT_CSS } from './typography.s'
 import { S } from './typography.s'
 
