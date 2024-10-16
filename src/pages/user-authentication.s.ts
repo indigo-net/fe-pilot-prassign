@@ -1,41 +1,51 @@
 import styled from 'styled-components'
+import { FONT_SIZE } from '../styles/font-size'
+import { FONT_WEIGHT } from '../styles/font-weight'
 
-const Container = styled.div`
+const PageContainer = styled.div`
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
-  padding: 20px;
-  max-width: 400px;
-  margin: 0 auto;
+  gap: 50px;
 `
 
-const Title = styled.h1`
-  margin-bottom: 20px;
+const PageTitle = styled.h1`
+  font-size: ${FONT_SIZE.big};
+  font-weight: ${FONT_WEIGHT.regular};
 `
 
+const InputLabel = styled.label`
+  font-size: ${FONT_SIZE.medium};
+  font-weight: ${FONT_WEIGHT.extraLight};
+`
 const InputContainer = styled.div`
+  width: 100%;
+  max-width: 320px;
+  min-width: 260px;
+  height: fit-content;
   display: flex;
   flex-direction: column;
-  width: 100%;
-  margin-bottom: 20px;
+  align-items: start;
+  gap: 10px;
+  padding: 0 10px;
 `
-
-const Label = styled.label`
-  margin-bottom: 5px;
-  font-weight: bold;
-`
-
-const Input = styled.input`
-  padding: 10px;
-  font-size: 16px;
-  border-radius: 5px;
-  width: 100%;
+const ButtonWrapper = styled.div`
+  width: 320px;
+  min-width: 260px;
+  height: fit-content;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  padding: 0 10px;
 `
 
 export const S = {
-  Container,
-  Title,
+  PageContainer,
+  PageTitle,
+  InputLabel,
   InputContainer,
-  Label,
-  Input,
+  ButtonWrapper,
 }

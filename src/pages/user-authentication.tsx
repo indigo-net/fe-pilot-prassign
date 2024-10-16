@@ -1,5 +1,7 @@
 import { useNavigate } from 'react-router-dom'
-import PinInput from '../components/pin-input'
+import Button from '../components/common/button'
+import Input from '../components/common/input'
+import PinInput from '../components/user-authentication/pin-input'
 import { S } from './user-authentication.s'
 
 const UserAuthentication = () => {
@@ -11,18 +13,20 @@ const UserAuthentication = () => {
   }
 
   return (
-    <S.Container>
-      <S.Title>사용자 인증</S.Title>
+    <S.PageContainer>
+      <S.PageTitle>회원 인증</S.PageTitle>
       <S.InputContainer>
-        <S.Label>사용자 이름 (최대 5자)</S.Label>
-        <S.Input type="text" maxLength={5} placeholder="이름 입력" />
+        <S.InputLabel>사용자 이름 (최대 5자)</S.InputLabel>
+        <Input size="full" placeholder="이름 입력" />
       </S.InputContainer>
       <S.InputContainer>
-        <S.Label>PIN 번호 입력</S.Label>
+        <S.InputLabel>PIN 번호 입력</S.InputLabel>
         <PinInput />
       </S.InputContainer>
-      <button onClick={handleSubmit}>제출</button>
-    </S.Container>
+      <S.ButtonWrapper>
+        <Button onClick={handleSubmit}>제출</Button>
+      </S.ButtonWrapper>
+    </S.PageContainer>
   )
 }
 
