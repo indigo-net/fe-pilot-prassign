@@ -1,5 +1,9 @@
 import { useNavigate } from 'react-router-dom'
-import styled from 'styled-components'
+import Button from '../components/common/button'
+import CopyrightNotice from '../components/home/copyright-notice'
+import ProjectDescription from '../components/home/project-description'
+import ProjectTitle from '../components/home/project-title'
+import { S } from './home.s'
 
 const Home = () => {
   const navigate = useNavigate()
@@ -9,35 +13,18 @@ const Home = () => {
 
   return (
     <S.PageContainer>
-      <h1>Home</h1>
+      <S.ProjectSignatureContainer>
+        <ProjectTitle />
+        <ProjectDescription />
+      </S.ProjectSignatureContainer>
       <S.ButtonContainer>
-        <button onClick={onClickManager}>운영진</button>
-        <button onClick={onClickUser}>회원</button>
+        <Button onClick={onClickUser}>일반부원</Button>
+        <Button variant="secondary" onClick={onClickManager}>
+          운영진
+        </Button>
       </S.ButtonContainer>
+      <CopyrightNotice />
     </S.PageContainer>
   )
 }
 export default Home
-
-const PageContainer = styled.div`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-`
-
-const ButtonContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: fit-content;
-  gap: 10px;
-`
-
-const S = {
-  PageContainer,
-  ButtonContainer,
-}

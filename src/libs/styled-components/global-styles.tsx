@@ -77,6 +77,9 @@ const GlobalStyles = createGlobalStyle`
     @media screen and (min-width: ${BREAK_POINT.tablet}) {
       font-size: 62%;
     }
+    width: 100dvw;
+    height: 100dvh;
+    overflow: hidden;
   }
   * {
     margin: 0;
@@ -86,9 +89,8 @@ const GlobalStyles = createGlobalStyle`
     outline: none;
   }
   body{
-    width: 100dvw;
-    height: 100dvh;
-    overflow: hidden;
+    width: 100%;
+    height: 100%;
     background-color: #2F2F2F;
     color: white;
     font-size: ${FONT_SIZE.regular}
