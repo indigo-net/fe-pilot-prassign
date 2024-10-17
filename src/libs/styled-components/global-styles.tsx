@@ -68,6 +68,28 @@ const GlobalStyles = createGlobalStyle`
     font-display: swap;
   }
 
+    /* 스크롤바 전체 스타일 */
+    ::-webkit-scrollbar {
+    width: 10px;
+    background-color: transparent;
+  }
+
+  /* 스크롤바 트랙 스타일 */
+  ::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+
+  /* 스크롤바 핸들 스타일 */
+  ::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+  }
+
+  /* 스크롤바 핸들 호버 시 스타일 */
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(255, 255, 255, 0.5);
+  }
+
   html{
     font-family: 'SCDream', sans-serif;
     font-size: 62.5%; 
@@ -80,6 +102,9 @@ const GlobalStyles = createGlobalStyle`
     width: 100dvw;
     height: 100dvh;
     overflow: hidden;
+
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
   }
   * {
     margin: 0;
@@ -87,6 +112,9 @@ const GlobalStyles = createGlobalStyle`
     box-sizing: border-box;
     border: none;
     outline: none;
+
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
   }
   body{
     width: 100%;
