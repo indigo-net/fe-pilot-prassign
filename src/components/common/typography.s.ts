@@ -19,6 +19,11 @@ export const TYPOGRAPHY_VARIANT_CSS = {
   caption: css`
     font-size: ${FONT_SIZE.tiny};
     font-weight: ${FONT_WEIGHT.extraLight};
+    color: ${COLOR.grayscale[200]};
+  `,
+  captionBold: css`
+    font-size: ${FONT_SIZE.tiny};
+    font-weight: ${FONT_WEIGHT.regular};
     color: ${COLOR.grayscale[500]};
   `,
 } as const

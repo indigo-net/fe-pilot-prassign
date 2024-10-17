@@ -1,8 +1,13 @@
 import { useCallback, useState } from 'react'
 import BottomBar from '../components/common/bottom-bar'
+import Checkbox from '../components/common/checkbox'
+import HighlightText from '../components/common/highlight-text'
 import Typography from '../components/common/typography'
 import PinPrinter from '../components/manager/pin-printer'
+import UserList from '../components/manager/user-list'
+import type { StatusCodeType } from '../types/status-code.type'
 import type { UserType } from '../types/user'
+import { mapCodeToLabel } from '../utils/status'
 import { S } from './manager.s'
 
 type ModeType = 'pin' | 'list'
@@ -10,9 +15,9 @@ type ModeType = 'pin' | 'list'
 const users: UserType[] = [
   {
     uuid: '45678ㅁㅎㅁ765',
-    userName: 'ㅁㄴㅇㄹ',
+    userName: '윤신0',
     arriveTimeStamp: 123123,
-    status: 0,
+    status: 1,
     fcmToken: 'abcd',
   },
   {
@@ -67,7 +72,7 @@ const users: UserType[] = [
     fcmToken: 'abcd',
   },
   {
-    uuid: '112323',
+    uuid: '112',
     userName: '윤신8',
     arriveTimeStamp: 1212321313,
     status: 0,
@@ -98,15 +103,43 @@ const Manager = () => {
   const onClickPINItem = useCallback(() => setMode('pin'), [])
   const onClickListItem = useCallback(() => setMode('list'), [])
 
+  const mapCodeToColor: Record<
+    StatusCodeType,
+    'violet' | 'skyBlue' | 'purple' | 'pink' | 'alert'
+  > = {
+    0: 'violet',
+    1: 'skyBlue',
+    2: 'purple',
+  }
+
   return (
     <S.PageContainer>
       <Typography variant="pageTitle">{pageTitle}</Typography>
 
-      {isPinMode && (
+      {isPinMode ? (
         <>
           <Typography variant="caption">회원에게만 공개해주세요.</Typography>
           <PinPrinter pin="1111" />
         </>
+      ) : (
+        <UserList.ListArea>
+          {users.map((user) => {
+            const statusLabel = mapCodeToLabel(user.status) || ''
+            const statusColor = mapCodeToColor[user.status] || 'skyBlue'
+            return (
+              <UserList.UserItem key={user.uuid}>
+                <Typography variant="captionBold">{user.userName}</Typography>
+
+                <Typography variant="captionBold">
+                  <HighlightText color={statusColor}>
+                    {statusLabel}
+                  </HighlightText>
+                </Typography>
+                <Checkbox disabled={user.status !== 1} />
+              </UserList.UserItem>
+            )
+          })}
+        </UserList.ListArea>
       )}
       <BottomBar.NavigationList>
         <BottomBar.NavigationItem color="purple" onClick={onClickPINItem}>
@@ -116,18 +149,6 @@ const Manager = () => {
           LIST
         </BottomBar.NavigationItem>
       </BottomBar.NavigationList>
-      {/* <button onClick={onClickHome}>홈으로</button>
-      <h1>Manager</h1>
-
-      <S.Content>
-        {mode === 'qr' ? <QRBox /> : <UserList users={users} />}
-      </S.Content>
-      <BottomNavi
-        items={[
-          { item: 'qr', onClick: onClickQRItem },
-          { item: 'list', onClick: onClickListItem },
-        ]}
-      /> */}
     </S.PageContainer>
   )
 }
