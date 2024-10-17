@@ -6,13 +6,14 @@ import { S } from './input.s'
 
 type InputProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> & {
   size?: keyof typeof INPUT_SIZE_CSS
+  isTextCenter?: boolean
 }
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ size = 'default', ...props }, ref) => {
+  ({ size = 'default', isTextCenter = false, ...props }, ref) => {
     return (
       <S.InputWrapper $size={size}>
-        <S.Input ref={ref} {...props} />
+        <S.Input ref={ref} $isTextCenter={isTextCenter} {...props} />
       </S.InputWrapper>
     )
   },

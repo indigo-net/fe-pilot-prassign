@@ -1,12 +1,11 @@
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import BottomNavi from '../components/bottom-navi'
-import QRBox from '../components/qr-box'
-import UserList from '../components/user-list'
+import { useCallback, useState } from 'react'
+import BottomBar from '../components/common/bottom-bar'
+import Typography from '../components/common/typography'
+import PinPrinter from '../components/manager/pin-printer'
 import type { UserType } from '../types/user'
 import { S } from './manager.s'
 
-type ModeType = 'qr' | 'list'
+type ModeType = 'pin' | 'list'
 
 const users: UserType[] = [
   {
@@ -91,17 +90,33 @@ const users: UserType[] = [
 ]
 
 const Manager = () => {
-  const navigate = useNavigate()
-  const [mode, setMode] = useState<ModeType>('qr')
+  const [mode, setMode] = useState<ModeType>('pin')
 
-  const onClickHome = () => navigate('/')
+  const isPinMode = mode === 'pin'
+  const pageTitle = isPinMode ? '식별 코드 (PIN)' : '회원 정보 리스트'
 
-  const onClickQRItem = () => setMode('qr')
-  const onClickListItem = () => setMode('list')
+  const onClickPINItem = useCallback(() => setMode('pin'), [])
+  const onClickListItem = useCallback(() => setMode('list'), [])
 
   return (
-    <S.Container>
-      <button onClick={onClickHome}>홈으로</button>
+    <S.PageContainer>
+      <Typography variant="pageTitle">{pageTitle}</Typography>
+
+      {isPinMode && (
+        <>
+          <Typography variant="caption">회원에게만 공개해주세요.</Typography>
+          <PinPrinter pin="1111" />
+        </>
+      )}
+      <BottomBar.NavigationList>
+        <BottomBar.NavigationItem color="purple" onClick={onClickPINItem}>
+          PIN
+        </BottomBar.NavigationItem>
+        <BottomBar.NavigationItem color="pink" onClick={onClickListItem}>
+          LIST
+        </BottomBar.NavigationItem>
+      </BottomBar.NavigationList>
+      {/* <button onClick={onClickHome}>홈으로</button>
       <h1>Manager</h1>
 
       <S.Content>
@@ -112,8 +127,8 @@ const Manager = () => {
           { item: 'qr', onClick: onClickQRItem },
           { item: 'list', onClick: onClickListItem },
         ]}
-      />
-    </S.Container>
+      /> */}
+    </S.PageContainer>
   )
 }
 export default Manager

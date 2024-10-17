@@ -1,4 +1,5 @@
 import styled, { css } from 'styled-components'
+import { COLOR } from '../../styles/color'
 import { FONT_SIZE } from '../../styles/font-size'
 import { FONT_WEIGHT } from '../../styles/font-weight'
 
@@ -14,6 +15,11 @@ export const TYPOGRAPHY_VARIANT_CSS = {
   pageTitle: css`
     font-size: ${FONT_SIZE.big};
     font-weight: ${FONT_WEIGHT.regular};
+  `,
+  caption: css`
+    font-size: ${FONT_SIZE.tiny};
+    font-weight: ${FONT_WEIGHT.extraLight};
+    color: ${COLOR.grayscale[500]};
   `,
 } as const
 

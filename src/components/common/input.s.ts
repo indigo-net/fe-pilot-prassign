@@ -34,7 +34,10 @@ const InputWrapper = styled.div<InputWrapperProps>`
   ${({ $size }) => INPUT_SIZE_CSS[$size]};
 `
 
-const Input = styled.input`
+type InputProps = {
+  $isTextCenter: boolean
+}
+const Input = styled.input<InputProps>`
   width: 100%;
   height: 100%;
   font-size: ${FONT_SIZE.regular};
@@ -44,7 +47,7 @@ const Input = styled.input`
   outline: none;
   border: none;
   background: transparent;
-
+  text-align: ${({ $isTextCenter }) => ($isTextCenter ? 'center' : 'start')};
   &::placeholder {
     color: ${COLOR.grayscale[500]};
   }
