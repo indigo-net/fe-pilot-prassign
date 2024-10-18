@@ -2,22 +2,21 @@ import { getAnalytics } from 'firebase/analytics'
 import { initializeApp } from 'firebase/app'
 import { getMessaging } from 'firebase/messaging'
 import type { ReactNode } from 'react'
-import { createContext, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { firebaseConfig } from '../libs/firebase/firebase-config'
-
-type FirebaseContextType = {
-  messaging: ReturnType<typeof getMessaging>
-}
-const FirebaseContext = createContext<FirebaseContextType | null>(null)
+import { FirebaseContext } from './firebase-context'
 
 type FirebaseProviderProps = {
   children: ReactNode
 }
 const FirebaseProvider = ({ children }: FirebaseProviderProps) => {
-  const app = initializeApp(firebaseConfig)
-  const messaging = getMessaging(app)
+  const [messaging, setMessaging] = useState<ReturnType<
+    typeof getMessaging
+  > | null>(null)
 
   useEffect(() => {
+    const app = initializeApp(firebaseConfig)
+    setMessaging(getMessaging(app))
     getAnalytics(app)
   }, [])
 
@@ -28,5 +27,4 @@ const FirebaseProvider = ({ children }: FirebaseProviderProps) => {
   )
 }
 
-export { FirebaseContext }
 export default FirebaseProvider
