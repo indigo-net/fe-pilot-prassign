@@ -1,3 +1,6 @@
 {
-  "extensions": {}
+  "extensions": {},
+  "hosting": {
+    "site": "pilot-prassign.vercel.app"
+  }
 }
