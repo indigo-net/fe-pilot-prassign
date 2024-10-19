@@ -1,3 +1,4 @@
+import { useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { v4 } from 'uuid'
 import Button from '../components/common/button'
@@ -10,14 +11,19 @@ import { S } from './user-authentication.s'
 const UserAuthentication = () => {
   const navigate = useNavigate()
   const { requestNotificationPermission } = useFCM()
-
+  const userNameRef = useRef<HTMLInputElement>(null)
   const handleSubmit = async () => {
+    if (!userNameRef.current?.value) {
+      alert('사용자 이름을 입력해주세요.')
+      return
+    }
+
     try {
       const fcmToken = await requestNotificationPermission()
 
       const action = 'regist'
       const uuid = v4()
-      const username = 'shuttle-bus'
+      const username = userNameRef.current?.value
       const arriveTimeStamp = Date.now()
       const status = 'REST'
 
@@ -44,7 +50,7 @@ const UserAuthentication = () => {
       <S.PageTitle>회원 인증</S.PageTitle>
       <S.InputContainer>
         <S.InputLabel>사용자 이름 (최대 5자)</S.InputLabel>
-        <Input size="full" placeholder="이름 입력" />
+        <Input size="full" placeholder="이름 입력" ref={userNameRef} />
       </S.InputContainer>
       <S.InputContainer>
         <S.InputLabel>PIN 번호 입력</S.InputLabel>
