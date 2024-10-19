@@ -1,4 +1,5 @@
 import { useCallback, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import BottomBar from '../components/common/bottom-bar'
 import Checkbox from '../components/common/checkbox'
 import HighlightText from '../components/common/highlight-text'
@@ -8,6 +9,7 @@ import PinPrinter from '../components/manager/pin-printer'
 import UserList from '../components/manager/user-list'
 import { MAP_STATUS_TO_LABEL } from '../constants/status'
 import { useUserList } from '../hooks/use-user-list'
+import { axiosInstance } from '../libs/axios/axios-instance'
 import type { StatusType } from '../types/status-code.type'
 import { isNull, isUndefined } from '../utils/type-guard'
 import { S } from './manager.s'
@@ -15,6 +17,7 @@ import { S } from './manager.s'
 type ModeType = 'pin' | 'list'
 
 const Manager = () => {
+  const navigate = useNavigate()
   const [mode, setMode] = useState<ModeType>('pin')
   const { data: userList, isLoading, error } = useUserList()
 
@@ -23,6 +26,14 @@ const Manager = () => {
 
   const onClickPINItem = useCallback(() => setMode('pin'), [])
   const onClickListItem = useCallback(() => setMode('list'), [])
+  const onClickExit = useCallback(async () => {
+    try {
+      await axiosInstance().delete('/prassign/users/all')
+      navigate('/')
+    } catch {
+      console.error('네트워크 문제로,, 종료 실패')
+    }
+  }, [])
 
   const mapCodeToColor: Record<
     StatusType,
@@ -88,6 +99,9 @@ const Manager = () => {
         </BottomBar.NavigationItem>
         <BottomBar.NavigationItem color="pink" onClick={onClickListItem}>
           LIST
+        </BottomBar.NavigationItem>
+        <BottomBar.NavigationItem color="alert" onClick={onClickExit}>
+          종료
         </BottomBar.NavigationItem>
       </BottomBar.NavigationList>
     </S.PageContainer>
