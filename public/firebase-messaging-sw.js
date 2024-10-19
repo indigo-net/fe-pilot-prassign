@@ -10,12 +10,16 @@ firebase.initializeApp({
   storageBucket: 'prassign-92b35.appspot.com',
   messagingSenderId: '123456789012',
   appId: '1:123456789012:web:12345678901234567890',
-  measurementId: 'G-1234567890',
 })
 
 const messaging = firebase.messaging()
 
 messaging.onBackgroundMessage((payload) => {
-  console.log('Received background message ', payload)
-  // 여기에서 알림을 표시하는 로직을 구현합니다
+  const notificationTitle = payload.notification.title
+  const notificationOptions = {
+    body: payload.notification.body,
+    icon: '/firebase-logo.png',
+  }
+
+  self.registration.showNotification(notificationTitle, notificationOptions)
 })

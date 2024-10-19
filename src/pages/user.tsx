@@ -4,11 +4,13 @@ import BottomBar from '../components/common/bottom-bar'
 import HighlightText from '../components/common/highlight-text'
 import Typography from '../components/common/typography'
 import { STATUS } from '../constants/status'
+import { useFCM } from '../hooks/use-fcm'
 import type { StatusValueType } from '../types/status-code.type'
 import { S } from './user.s'
 
 const User = () => {
   const [statusValue, setStatusValue] = useState<StatusValueType>('REST')
+  const { fcmToken, error } = useFCM()
   const navigate = useNavigate()
 
   const onClickStatus = (status: StatusValueType) =>
@@ -18,6 +20,9 @@ const User = () => {
     localStorage.removeItem('authKey')
     navigate('/')
   }, [navigate])
+
+  console.log(fcmToken)
+  console.log(error)
 
   const statusNColorMap: Record<
     StatusValueType,
@@ -45,6 +50,8 @@ const User = () => {
           </Typography>
         </S.UserInfoContainer>
       </S.PageContentContainer>
+
+      <p>{fcmToken && fcmToken}</p>
 
       <BottomBar.NavigationList>
         {Object.values(STATUS).map((status) => (
