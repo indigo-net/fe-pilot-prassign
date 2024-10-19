@@ -23,21 +23,21 @@ const UserAuthentication = () => {
 
       const action = 'regist'
       const uuid = v4()
-      const username = userNameRef.current?.value
+      const userName = userNameRef.current?.value
       const arriveTimeStamp = Date.now()
       const status = 'REST'
 
       await axiosInstance().post('/prassign/users', {
         action,
         uuid,
-        username,
+        userName,
         arriveTimeStamp,
         status,
         fcmToken,
       })
 
       localStorage.setItem('uuid', uuid)
-      localStorage.setItem('username', username)
+      localStorage.setItem('userName', userName)
       localStorage.setItem('authKey', 'shuttle-bus')
       navigate('/user')
     } catch (err) {
