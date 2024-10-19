@@ -11,8 +11,8 @@ import { S } from './user.s'
 const User = () => {
   const [statusValue, setStatusValue] = useState<StatusType>('REST')
   const navigate = useNavigate()
-  const username = useMemo(() => {
-    return localStorage.getItem('username') ?? 'Unknown Player'
+  const userName = useMemo(() => {
+    return localStorage.getItem('userName') ?? 'Unknown Player'
   }, [])
 
   const onClickStatus = async (status: StatusType) => {
@@ -34,9 +34,17 @@ const User = () => {
     }
   }
 
-  const onClickExit = useCallback(() => {
-    localStorage.removeItem('authKey')
-    navigate('/')
+  const onClickExit = useCallback(async () => {
+    const uuid = localStorage.getItem('uuid')
+    try {
+      await axiosInstance().delete(`/prassign/users/${uuid}`)
+      localStorage.removeItem('authKey')
+      localStorage.removeItem('uuid')
+      localStorage.removeItem('userName')
+      navigate('/')
+    } catch {
+      console.error('네트워크 에러로.. 퇴장 불가')
+    }
   }, [navigate])
 
   const statusNColorMap: Record<
@@ -56,7 +64,7 @@ const User = () => {
       <S.PageContentContainer>
         <Typography variant="pageTitle">회원 페이지</Typography>
         <S.UserInfoContainer>
-          <Typography variant="bigInfo">{username} 님은</Typography>
+          <Typography variant="bigInfo">{userName} 님은</Typography>
           <Typography variant="bigInfo">
             <HighlightText color={statusNColorMap[statusValue]}>
               {MAP_STATUS_TO_LABEL[statusValue]}
