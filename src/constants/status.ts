@@ -1,19 +1,12 @@
-import type { StatusCodeType, StatusValueType } from '../types/status-code.type'
+import type { StatusType } from '../types/status-code.type'
 
-export const STATUS = {
-  REST: {
-    label: '휴식',
-    value: 'REST' as StatusValueType,
-    code: 0 as StatusCodeType,
-  },
-  READY: {
-    label: '준비',
-    value: 'READY' as StatusValueType,
-    code: 1 as StatusCodeType,
-  },
-  GAME: {
-    label: '게임 중',
-    value: 'GAME' as StatusValueType,
-    code: 2 as StatusCodeType,
-  },
+export const ARRAY_STATUS: Array<StatusType> = [
+  'REST',
+  'READY',
+  'GAME',
+] as const
+export const MAP_STATUS_TO_LABEL: Record<StatusType, string> = {
+  REST: '휴식',
+  READY: '준비',
+  GAME: '게임 중',
 } as const

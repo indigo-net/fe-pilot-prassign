@@ -3,19 +3,19 @@ import { useNavigate } from 'react-router-dom'
 import BottomBar from '../components/common/bottom-bar'
 import HighlightText from '../components/common/highlight-text'
 import Typography from '../components/common/typography'
-import { STATUS } from '../constants/status'
+import { ARRAY_STATUS, MAP_STATUS_TO_LABEL } from '../constants/status'
 import { axiosInstance } from '../libs/axios/axios-instance'
-import type { StatusValueType } from '../types/status-code.type'
+import type { StatusType } from '../types/status-code.type'
 import { S } from './user.s'
 
 const User = () => {
-  const [statusValue, setStatusValue] = useState<StatusValueType>('REST')
+  const [statusValue, setStatusValue] = useState<StatusType>('REST')
   const navigate = useNavigate()
   const username = useMemo(() => {
     return localStorage.getItem('username') ?? 'Unknown Player'
   }, [])
 
-  const onClickStatus = async (status: StatusValueType) => {
+  const onClickStatus = async (status: StatusType) => {
     const prevStatusValue = statusValue
 
     const action = 'update'
@@ -26,7 +26,7 @@ const User = () => {
       status: statusValue,
     }
     try {
-      setStatusValue(STATUS[status].value)
+      setStatusValue(status)
       await axiosInstance().put('/prassign/users', requestBody)
     } catch {
       setStatusValue(prevStatusValue)
@@ -40,7 +40,7 @@ const User = () => {
   }, [navigate])
 
   const statusNColorMap: Record<
-    StatusValueType,
+    StatusType,
     'violet' | 'skyBlue' | 'purple' | 'pink' | 'alert'
   > = useMemo(
     () => ({
@@ -59,7 +59,7 @@ const User = () => {
           <Typography variant="bigInfo">{username} 님은</Typography>
           <Typography variant="bigInfo">
             <HighlightText color={statusNColorMap[statusValue]}>
-              {STATUS[statusValue].label}
+              {MAP_STATUS_TO_LABEL[statusValue]}
             </HighlightText>{' '}
             상태입니다.
           </Typography>
@@ -67,13 +67,13 @@ const User = () => {
       </S.PageContentContainer>
 
       <BottomBar.NavigationList>
-        {Object.values(STATUS).map((status) => (
+        {ARRAY_STATUS.map((status) => (
           <BottomBar.NavigationItem
-            key={status.value}
-            onClick={() => onClickStatus(status.value)}
-            color={statusNColorMap[status.value]}
+            key={status}
+            onClick={() => onClickStatus(status)}
+            color={statusNColorMap[status]}
           >
-            {status.label}
+            {status}
           </BottomBar.NavigationItem>
         ))}
         <BottomBar.NavigationItem color="alert" onClick={onClickExit}>

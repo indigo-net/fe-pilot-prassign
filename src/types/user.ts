@@ -1,9 +1,9 @@
-import type { StatusCodeType } from './status-code.type'
+import type { StatusType } from './status-code.type'
 
 export type UserType = {
   uuid: string
   userName: string
   arriveTimeStamp: number
-  status: StatusCodeType
+  status: StatusType
   fcmToken: string
 }
