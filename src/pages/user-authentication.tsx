@@ -9,7 +9,7 @@ import { S } from './user-authentication.s'
 
 const UserAuthentication = () => {
   const navigate = useNavigate()
-  const { token, isLoading, error, requestNotificationPermission } = useFCM()
+  const { requestNotificationPermission } = useFCM()
 
   const handleSubmit = async () => {
     try {
@@ -21,7 +21,7 @@ const UserAuthentication = () => {
       const arriveTimeStamp = Date.now()
       const status = 'REST'
 
-      const response = await axiosInstance().post('/prassign/users', {
+      await axiosInstance().post('/prassign/users', {
         action,
         uuid,
         username,
