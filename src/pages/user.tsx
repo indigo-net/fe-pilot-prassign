@@ -37,7 +37,7 @@ const User = () => {
   const onClickExit = useCallback(async () => {
     const uuid = localStorage.getItem('uuid')
     try {
-      await axiosInstance().delete(`/prassign/users/${uuid}`)
+      await axiosInstance().delete(`/prassign/users`, { params: { uuid } })
       localStorage.removeItem('authKey')
       localStorage.removeItem('uuid')
       localStorage.removeItem('userName')
