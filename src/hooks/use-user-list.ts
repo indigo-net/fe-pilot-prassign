@@ -12,6 +12,7 @@ export const useUserList = (intervalMs = 1000 * 20) =>
       })
       return response.data.list
     },
-    refetchInterval: intervalMs, // 20초마다 자동 재요청
-    refetchIntervalInBackground: false, // 백그라운드에서 재요청 하지 않음
+    refetchInterval: intervalMs,
+    staleTime: 1000 * 10,
+    placeholderData: (previousData) => previousData,
   })
