@@ -30,6 +30,8 @@ const UserAuthentication = () => {
         fcmToken,
       })
 
+      localStorage.setItem('uuid', uuid)
+      localStorage.setItem('username', username)
       localStorage.setItem('authKey', 'shuttle-bus')
       navigate('/user')
     } catch (err) {

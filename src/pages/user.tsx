@@ -4,15 +4,35 @@ import BottomBar from '../components/common/bottom-bar'
 import HighlightText from '../components/common/highlight-text'
 import Typography from '../components/common/typography'
 import { STATUS } from '../constants/status'
+import { axiosInstance } from '../libs/axios/axios-instance'
 import type { StatusValueType } from '../types/status-code.type'
 import { S } from './user.s'
 
 const User = () => {
   const [statusValue, setStatusValue] = useState<StatusValueType>('REST')
   const navigate = useNavigate()
+  const username = useMemo(() => {
+    return localStorage.getItem('username') ?? 'Unknown Player'
+  }, [])
 
-  const onClickStatus = (status: StatusValueType) =>
-    setStatusValue(STATUS[status].value)
+  const onClickStatus = async (status: StatusValueType) => {
+    const prevStatusValue = statusValue
+
+    const action = 'update'
+    const uuid = localStorage.getItem('uuid')
+    const requestBody = {
+      action,
+      uuid,
+      status: statusValue,
+    }
+    try {
+      setStatusValue(STATUS[status].value)
+      await axiosInstance().put('/prassign/users', requestBody)
+    } catch {
+      setStatusValue(prevStatusValue)
+      console.error('서버 상태 업데이트 불가')
+    }
+  }
 
   const onClickExit = useCallback(() => {
     localStorage.removeItem('authKey')
@@ -36,7 +56,7 @@ const User = () => {
       <S.PageContentContainer>
         <Typography variant="pageTitle">회원 페이지</Typography>
         <S.UserInfoContainer>
-          <Typography variant="bigInfo">Jeff 님은</Typography>
+          <Typography variant="bigInfo">{username} 님은</Typography>
           <Typography variant="bigInfo">
             <HighlightText color={statusNColorMap[statusValue]}>
               {STATUS[statusValue].label}
