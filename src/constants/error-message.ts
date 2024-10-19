@@ -1,3 +1,6 @@
+/* Http 통신 */
+export const HTTP_FAILURE = 'Http 통신에 실패했습니다.'
+
 /* firebase 관련 */
 export const NO_FIREBASE_CONTEXT = 'Firebase Context 가 없습니다.'
 export const NO_FCM_TOKEN = 'FCM Token 획득에 실패했습니다.'
