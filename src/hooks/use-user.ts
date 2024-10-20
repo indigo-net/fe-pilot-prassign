@@ -5,6 +5,7 @@ import type { UserType } from '../types/user'
 import { isNull } from '../utils/type-guard'
 import {
   getItemFromLocalStorage,
+  removeItemFromLocalStorage,
   setItemToLocalStorage,
 } from '../utils/web-storage-manager'
 
@@ -12,6 +13,11 @@ export const useUser = () => {
   const [user, setUser] = useState<UserType | null>(() =>
     getItemFromLocalStorage<UserType>(LOCAL_KEY.USER),
   )
+
+  const nullifyUser = useCallback(() => {
+    setUser(null)
+    removeItemFromLocalStorage(LOCAL_KEY.USER)
+  }, [])
 
   const setUserStatus = useCallback(
     (newStatus: StatusType) => {
@@ -33,5 +39,5 @@ export const useUser = () => {
     [user],
   )
 
-  return { user, setUserStatus }
+  return { user, setUserStatus, nullifyUser }
 }

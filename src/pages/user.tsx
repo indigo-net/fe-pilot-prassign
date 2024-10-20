@@ -5,18 +5,16 @@ import HighlightText from '../components/common/highlight-text'
 import Typography from '../components/common/typography'
 import { NO_USER } from '../constants/alert-message'
 import { ARRAY_STATUS, MAP_STATUS_TO_LABEL } from '../constants/status'
-import { LOCAL_KEY } from '../constants/web-storage-key'
 import { useFCM } from '../hooks/use-fcm'
 import { useUser } from '../hooks/use-user'
 import { axiosInstance } from '../libs/axios/axios-instance'
 import type { StatusType } from '../types/status-code.type'
 import { isNull } from '../utils/type-guard'
-import { removeItemFromLocalStorage } from '../utils/web-storage-manager'
 import { S } from './user.s'
 
 const User = () => {
   const navigate = useNavigate()
-  const { user, setUserStatus } = useUser()
+  const { user, setUserStatus, nullifyUser } = useUser()
   useFCM()
 
   const userName = user?.userName ?? 'Unknown Player'
@@ -26,10 +24,9 @@ const User = () => {
     async (newStatus: StatusType) => {
       if (isNull(user)) {
         alert(NO_USER)
-        removeItemFromLocalStorage(LOCAL_KEY.USER)
+        nullifyUser()
         return
       }
-
       const uuid = user.uuid
       const prevStatus = user.status
 
@@ -52,7 +49,7 @@ const User = () => {
   const onClickExit = useCallback(async () => {
     if (isNull(user)) {
       alert(NO_USER)
-      removeItemFromLocalStorage(LOCAL_KEY.USER)
+      nullifyUser()
       return
     }
     const uuid = user.uuid
@@ -60,7 +57,7 @@ const User = () => {
       await axiosInstance().delete(`/prassign/users`, {
         params: { uuid },
       })
-      removeItemFromLocalStorage(LOCAL_KEY.USER)
+      nullifyUser()
       navigate('/')
     } catch {
       console.error('네트워크 에러로.. 퇴장 불가')
