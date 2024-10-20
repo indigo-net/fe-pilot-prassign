@@ -16,7 +16,7 @@ type FCMStateType = {
   token: string | null
   isLoading: boolean
   error: Error | null
-  message: unknown | null
+  message: string | null
 }
 
 export const useFCM = () => {
@@ -78,13 +78,12 @@ export const useFCM = () => {
     audioRef.current.load()
 
     const unsubscribe = onMessage(messaging, (payload) => {
-      setPartialState({ message: payload })
-      console.log('payload', payload)
+      const message = payload.data?.msg ?? '게임이 곧 시작됩니다. 대기해주세요.'
+      setPartialState({ message })
 
       // 소리 재생
       if (audioRef.current) {
         audioRef.current.play().catch((error) => {
-          console.error('Error playing audio:', error)
           if (error.name === 'NotAllowedError') {
             alert(
               '크롬 브라우저를 이용하면 오디오 알림 기능을 사용할 수 있습니다.',
@@ -93,7 +92,7 @@ export const useFCM = () => {
         })
       }
       // alert 표시
-      alert(`${payload.notification?.title}\n${payload.notification?.body}`)
+      alert(`${message}`)
     })
 
     return () => unsubscribe()
