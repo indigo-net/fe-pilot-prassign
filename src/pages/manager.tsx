@@ -12,7 +12,6 @@ import { MAP_STATUS_TO_LABEL } from '../constants/status'
 import { useUserList } from '../hooks/use-user-list'
 import { axiosInstance } from '../libs/axios/axios-instance'
 import type { StatusType } from '../types/status-code.type'
-import { isNull, isUndefined } from '../utils/type-guard'
 import { S } from './manager.s'
 
 type ModeType = 'pin' | 'list'
@@ -20,7 +19,9 @@ type ModeType = 'pin' | 'list'
 const Manager = () => {
   const navigate = useNavigate()
   const [mode, setMode] = useState<ModeType>('pin')
-  const { data: userList, isLoading, error } = useUserList()
+  const { data: userList } = useUserList()
+
+  const [selectedTokens, setSelectedTokens] = useState<string[]>([])
 
   const isPinMode = mode === 'pin'
   const pageTitle = isPinMode ? '식별 코드 (PIN)' : '회원 정보 리스트'
@@ -35,8 +36,23 @@ const Manager = () => {
       console.error('네트워크 문제로,, 종료 실패')
     }
   }, [])
-  const onClickSendNotification = useCallback(() => {
-    console.log('알림보내기')
+  const onClickSendNotification = useCallback(async () => {
+    if (selectedTokens.length === 0) {
+      alert('선택된 회원이 없습니다.')
+      return
+    }
+    try {
+      const action = 'notify'
+      const tokens = [...selectedTokens]
+      const msg = '게임이 곧 시작됩니다. 대기해주세요.'
+      await axiosInstance().post('/prassign/users', {
+        action,
+        tokens,
+        msg,
+      })
+    } catch {
+      alert('알림 보내기 실패')
+    }
   }, [])
 
   const mapCodeToColor: Record<
@@ -47,8 +63,10 @@ const Manager = () => {
     READY: 'skyBlue',
     GAME: 'purple',
   }
-  const isError = !isLoading && (!isNull(error) || isUndefined(userList))
-  const isUserList = !isError && !isLoading
+  // 👇 커밋 전에 수정
+  const isError = false
+  // 👇 커밋 전에 수정
+  const isUserList = true
 
   return (
     <S.PageContainer>
@@ -66,7 +84,8 @@ const Manager = () => {
               <Typography variant="captionBold">에러 발생..</Typography>
             </JustArea>
           )}
-          {isLoading && (
+          {/**👇 커밋 전에 수정 */}
+          {false && (
             <JustArea>
               <Typography variant="captionBold">로딩 중..</Typography>
             </JustArea>
@@ -90,12 +109,29 @@ const Manager = () => {
                           {statusLabel}
                         </HighlightText>
                       </Typography>
-                      <Checkbox disabled={user.status !== 'READY'} />
+                      <Checkbox
+                        onHandleCheckbox={(isChecked: boolean) => {
+                          if (isChecked)
+                            setSelectedTokens((prev) => [
+                              ...prev,
+                              user.fcmToken,
+                            ])
+                          else
+                            setSelectedTokens((prev) =>
+                              prev.filter(
+                                (fcmToken) => fcmToken !== user.fcmToken,
+                              ),
+                            )
+                        }}
+                        disabled={user.status !== 'READY'}
+                      />
                     </UserList.UserItem>
                   )
                 })}
               </UserList.ListArea>
-              <Button onClick={onClickSendNotification}>알림보내기</Button>
+              <Button size="fit" onClick={onClickSendNotification}>
+                🔔 알림 보내기
+              </Button>
             </>
           )}
         </S.ListContentContainer>
