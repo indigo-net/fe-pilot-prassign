@@ -62,6 +62,7 @@ const Manager = () => {
         tokens,
         msg,
       })
+      setSelectedTokens([])
     } catch {
       alert('알림 보내기 실패')
     }
@@ -119,6 +120,7 @@ const Manager = () => {
                         </HighlightText>
                       </Typography>
                       <Checkbox
+                        initialChecked={selectedTokens.includes(user.fcmToken)}
                         onHandleCheckbox={(isChecked: boolean) => {
                           if (isChecked)
                             setSelectedTokens((prev) => [
