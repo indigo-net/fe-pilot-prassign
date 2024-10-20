@@ -12,6 +12,7 @@ import { MAP_STATUS_TO_LABEL } from '../constants/status'
 import { useUserList } from '../hooks/use-user-list'
 import { axiosInstance } from '../libs/axios/axios-instance'
 import type { StatusType } from '../types/status-code.type'
+import { isNull, isUndefined } from '../utils/type-guard'
 import { S } from './manager.s'
 
 type ModeType = 'pin' | 'list'
@@ -19,7 +20,7 @@ type ModeType = 'pin' | 'list'
 const Manager = () => {
   const navigate = useNavigate()
   const [mode, setMode] = useState<ModeType>('pin')
-  const { data: userList } = useUserList()
+  const { data: userList, isLoading, error } = useUserList()
 
   const [selectedTokens, setSelectedTokens] = useState<string[]>([])
 
@@ -53,7 +54,7 @@ const Manager = () => {
     } catch {
       alert('알림 보내기 실패')
     }
-  }, [])
+  }, [selectedTokens])
 
   const mapCodeToColor: Record<
     StatusType,
@@ -64,9 +65,9 @@ const Manager = () => {
     GAME: 'purple',
   }
   // 👇 커밋 전에 수정
-  const isError = false
+  const isError = !isLoading && (!isNull(error) || isUndefined(userList))
   // 👇 커밋 전에 수정
-  const isUserList = true
+  const isUserList = !isError && !isLoading
 
   return (
     <S.PageContainer>
