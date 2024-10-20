@@ -35,7 +35,7 @@ const UserAuthentication = () => {
 
       await axiosInstance().post('/prassign/users', {
         action: 'regist',
-        user,
+        ...user,
       })
 
       setItemToLocalStorage<UserType>(LOCAL_KEY.USER, user)
