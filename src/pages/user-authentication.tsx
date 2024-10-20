@@ -4,8 +4,10 @@ import { v4 } from 'uuid'
 import Button from '../components/common/button'
 import Input from '../components/common/input'
 import PinInput from '../components/user-authentication/pin-input'
+import { LOCAL_KEY } from '../constants/web-storage-key'
 import { useFCM } from '../hooks/use-fcm'
 import { axiosInstance } from '../libs/axios/axios-instance'
+import { setItemToLocalStorage } from '../utils/web-storage-manager'
 import { S } from './user-authentication.s'
 
 const UserAuthentication = () => {
@@ -20,6 +22,8 @@ const UserAuthentication = () => {
 
     try {
       const fcmToken = await requestNotificationPermission()
+
+      setItemToLocalStorage(LOCAL_KEY.FCM_TOKEN, fcmToken)
 
       const action = 'regist'
       const uuid = v4()

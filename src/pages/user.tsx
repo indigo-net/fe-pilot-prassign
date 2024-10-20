@@ -4,6 +4,7 @@ import BottomBar from '../components/common/bottom-bar'
 import HighlightText from '../components/common/highlight-text'
 import Typography from '../components/common/typography'
 import { ARRAY_STATUS, MAP_STATUS_TO_LABEL } from '../constants/status'
+import { useFCM } from '../hooks/use-fcm'
 import { axiosInstance } from '../libs/axios/axios-instance'
 import type { StatusType } from '../types/status-code.type'
 import { S } from './user.s'
@@ -14,6 +15,7 @@ const User = () => {
   const userName = useMemo(() => {
     return localStorage.getItem('userName') ?? 'Unknown Player'
   }, [])
+  useFCM()
 
   const onClickStatus = async (newStatus: StatusType) => {
     const prevStatusValue = statusValue

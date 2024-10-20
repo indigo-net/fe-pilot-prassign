@@ -7,8 +7,10 @@ import {
   NO_NOTIFICATION_PERMISSION,
   UNKNOWN_ERROR,
 } from '../constants/error-message'
+import { LOCAL_KEY } from '../constants/web-storage-key'
 import { useFirebaseStore } from '../contexts/firebase-context'
 import { isNull } from '../utils/type-guard'
+import { getItemFromLocalStorage } from '../utils/web-storage-manager'
 
 type FCMStateType = {
   token: string | null
@@ -20,7 +22,7 @@ type FCMStateType = {
 export const useFCM = () => {
   const { messaging } = useFirebaseStore()
   const [state, setState] = useState<FCMStateType>({
-    token: null,
+    token: getItemFromLocalStorage<string>(LOCAL_KEY.FCM_TOKEN),
     isLoading: false,
     error: null,
     message: null,
