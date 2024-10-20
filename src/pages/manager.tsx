@@ -36,7 +36,7 @@ const Manager = () => {
     try {
       await axiosInstance().delete('/prassign/users', {
         params: {
-          action: 'all',
+          uuid: 'all',
         },
       })
       navigate('/')
