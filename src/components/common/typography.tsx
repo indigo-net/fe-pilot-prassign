@@ -7,8 +7,16 @@ type TypographyProps = HTMLAttributes<HTMLParagraphElement> &
     variant?: keyof typeof TYPOGRAPHY_VARIANT_CSS
   }>
 
-const Typography = ({ variant = 'default', children }: TypographyProps) => {
-  return <S.Paragraph $variant={variant}>{children}</S.Paragraph>
+const Typography = ({
+  variant = 'default',
+  children,
+  ...props
+}: TypographyProps) => {
+  return (
+    <S.Paragraph $variant={variant} {...props}>
+      {children}
+    </S.Paragraph>
+  )
 }
 
 export default Typography

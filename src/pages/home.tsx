@@ -13,7 +13,6 @@ const Home = () => {
 
   return (
     <S.PageContainer>
-      <h1>Home</h1>
       <S.ProjectSignatureContainer>
         <ProjectTitle />
         <ProjectDescription />
