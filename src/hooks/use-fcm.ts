@@ -1,6 +1,7 @@
 import type { Messaging } from 'firebase/messaging'
 import { getToken, onMessage } from 'firebase/messaging'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
+import klaxonSound from '../assets/audio/klaxon.mp3'
 import {
   NO_FCM_TOKEN,
   NO_FIREBASE_CONTEXT,
@@ -19,6 +20,7 @@ type FCMStateType = {
 
 export const useFCM = () => {
   const { messaging } = useFirebaseStore()
+  const audioRef = useRef<HTMLAudioElement | null>(null)
   const [state, setState] = useState<FCMStateType>({
     token: null,
     isLoading: false,
@@ -70,8 +72,19 @@ export const useFCM = () => {
   useEffect(() => {
     if (!messaging) return
 
+    audioRef.current = new Audio(klaxonSound)
+
     const unsubscribe = onMessage(messaging, (payload) => {
       setPartialState({ message: payload })
+
+      // 소리 내기
+      if (audioRef.current) {
+        audioRef.current
+          .play()
+          .catch((error) => console.error('Error playing audio:', error))
+      }
+      // alert 표시
+      alert(`${payload.notification?.title}\n${payload.notification?.body}`)
     })
 
     return () => unsubscribe()
