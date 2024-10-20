@@ -25,6 +25,11 @@ const GoHomeButton = styled.button`
   font-size: ${FONT_SIZE.tiny};
   font-weight: ${FONT_WEIGHT.regular};
   cursor: pointer;
+  width: fit-content;
+  height: fit-content;
+  background-color: transparent;
+  border: none;
+  border-radius: 0;
 `
 
 export const S = {
