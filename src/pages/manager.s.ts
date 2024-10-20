@@ -30,8 +30,17 @@ const Content = styled.div`
   overflow: visible;
 `
 
+const ButtonContainer = styled.div`
+  width: 100%;
+  height: fit-content;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+`
 export const S = {
   PageContainer,
   ListContentContainer,
   Content,
+  ButtonContainer,
 }

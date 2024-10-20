@@ -1,3 +1,4 @@
+import { useQueryClient } from '@tanstack/react-query'
 import { useCallback, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import BottomBar from '../components/common/bottom-bar'
@@ -9,6 +10,7 @@ import JustArea from '../components/manager/just-area'
 import PinPrinter from '../components/manager/pin-printer'
 import UserList from '../components/manager/user-list'
 import { MAP_STATUS_TO_LABEL } from '../constants/status'
+import { QUERY_KEYS } from '../constants/tanstack-key'
 import { useUserList } from '../hooks/use-user-list'
 import { axiosInstance } from '../libs/axios/axios-instance'
 import type { StatusType } from '../types/status-code.type'
@@ -19,7 +21,8 @@ type ModeType = 'pin' | 'list'
 
 const Manager = () => {
   const navigate = useNavigate()
-  const [mode, setMode] = useState<ModeType>('pin')
+  const queryClient = useQueryClient()
+  const [mode, setMode] = useState<ModeType>('list')
   const { data: userList, isLoading, error } = useUserList()
 
   const [selectedTokens, setSelectedTokens] = useState<string[]>([])
@@ -41,6 +44,9 @@ const Manager = () => {
       console.error('네트워크 문제로,, 종료 실패')
     }
   }, [])
+  const onClickRefresh = useCallback(async () => {
+    queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.USER_LIST] })
+  }, [])
   const onClickSendNotification = useCallback(async () => {
     if (selectedTokens.length === 0) {
       alert('선택된 회원이 없습니다.')
@@ -49,7 +55,8 @@ const Manager = () => {
     try {
       const action = 'notify'
       const tokens = [...selectedTokens]
-      const msg = '게임이 곧 시작됩니다. 대기해주세요.'
+      const msg =
+        '[🚌셔틀버스 X 🦕인디고넷]<br/>이게 곧 경기가 시작됩니다. 준비해주세요.'
       await axiosInstance().post('/prassign/users', {
         action,
         tokens,
@@ -68,10 +75,8 @@ const Manager = () => {
     READY: 'skyBlue',
     GAME: 'purple',
   }
-  // 👇 커밋 전에 수정
   const isError = !isLoading && (!isNull(error) || isUndefined(userList))
-  // 👇 커밋 전에 수정
-  const isUserList = !isError && !isLoading
+  const isUserList = !isLoading && !isError
 
   return (
     <S.PageContainer>
@@ -89,8 +94,7 @@ const Manager = () => {
               <Typography variant="captionBold">에러 발생..</Typography>
             </JustArea>
           )}
-          {/**👇 커밋 전에 수정 */}
-          {false && (
+          {isLoading && (
             <JustArea>
               <Typography variant="captionBold">로딩 중..</Typography>
             </JustArea>
@@ -134,9 +138,18 @@ const Manager = () => {
                   )
                 })}
               </UserList.ListArea>
-              <Button size="fit" onClick={onClickSendNotification}>
-                🔔 알림 보내기
-              </Button>
+              <S.ButtonContainer>
+                <Button size="fit" onClick={onClickRefresh}>
+                  새로고침
+                </Button>
+                <Button
+                  size="fit"
+                  variant="secondary"
+                  onClick={onClickSendNotification}
+                >
+                  알림 전송
+                </Button>
+              </S.ButtonContainer>
             </>
           )}
         </S.ListContentContainer>
