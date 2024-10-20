@@ -31,7 +31,11 @@ const Manager = () => {
   const onClickListItem = useCallback(() => setMode('list'), [])
   const onClickExit = useCallback(async () => {
     try {
-      await axiosInstance().delete('/prassign/users/all')
+      await axiosInstance().delete('/prassign/users', {
+        params: {
+          action: 'all',
+        },
+      })
       navigate('/')
     } catch {
       console.error('네트워크 문제로,, 종료 실패')
