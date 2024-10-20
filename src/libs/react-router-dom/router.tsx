@@ -5,8 +5,8 @@ import Manager from '../../pages/manager'
 import NotFound from '../../pages/not-found'
 import User from '../../pages/user'
 import UserAuthentication from '../../pages/user-authentication'
-import ProtectedRoute from './protected-route'
-import UnauthenticatedRoute from './unauthenticated-route'
+import ProtectUserAuthenticationPageRoute from './protect-user-authentication-page-route'
+import ProtectUserPageRoute from './protect-user-page-route'
 
 // Layout 컴포넌트 추가 (홈 페이지 제외)
 const LayoutWithHeader = () => (
@@ -30,12 +30,12 @@ const router = createBrowserRouter([
       },
       {
         path: '/user',
-        element: <ProtectedRoute />,
+        element: <ProtectUserPageRoute />,
         children: [{ index: true, element: <User /> }],
       },
       {
         path: '/user/authentication',
-        element: <UnauthenticatedRoute />,
+        element: <ProtectUserAuthenticationPageRoute />,
         children: [{ index: true, element: <UserAuthentication /> }],
       },
       {

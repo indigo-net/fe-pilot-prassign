@@ -9,6 +9,7 @@ import {
 } from '../constants/error-message'
 import { LOCAL_KEY } from '../constants/web-storage-key'
 import { useFirebaseStore } from '../contexts/firebase-context'
+import type { UserType } from '../types/user'
 import { isNull } from '../utils/type-guard'
 import { getItemFromLocalStorage } from '../utils/web-storage-manager'
 
@@ -22,7 +23,7 @@ type FCMStateType = {
 export const useFCM = () => {
   const { messaging } = useFirebaseStore()
   const [state, setState] = useState<FCMStateType>({
-    token: getItemFromLocalStorage<string>(LOCAL_KEY.FCM_TOKEN),
+    token: getItemFromLocalStorage<UserType>(LOCAL_KEY.USER)?.fcmToken ?? null,
     isLoading: false,
     error: null,
     message: null,

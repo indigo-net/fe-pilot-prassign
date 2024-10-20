@@ -1,53 +1,72 @@
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import BottomBar from '../components/common/bottom-bar'
 import HighlightText from '../components/common/highlight-text'
 import Typography from '../components/common/typography'
+import { NO_USER } from '../constants/alert-message'
 import { ARRAY_STATUS, MAP_STATUS_TO_LABEL } from '../constants/status'
+import { LOCAL_KEY } from '../constants/web-storage-key'
 import { useFCM } from '../hooks/use-fcm'
-import { axiosInstance } from '../libs/axios/axios-instance'
+import { useUser } from '../hooks/use-user'
 import type { StatusType } from '../types/status-code.type'
+import { isNull } from '../utils/type-guard'
+import { removeItemFromLocalStorage } from '../utils/web-storage-manager'
 import { S } from './user.s'
 
 const User = () => {
-  const [statusValue, setStatusValue] = useState<StatusType>('REST')
   const navigate = useNavigate()
-  const userName = useMemo(() => {
-    return localStorage.getItem('userName') ?? 'Unknown Player'
-  }, [])
+  const { user, setUserStatus } = useUser()
   useFCM()
 
-  const onClickStatus = async (newStatus: StatusType) => {
-    const prevStatusValue = statusValue
+  const userName = user?.userName ?? 'Unknown Player'
+  const userStatus = user?.status ?? 'REST'
 
-    const action = 'update'
-    const uuid = localStorage.getItem('uuid')
-    const requestBody = {
-      action,
-      uuid,
-      status: newStatus,
-    }
-    try {
-      setStatusValue(newStatus)
-      await axiosInstance().put('/prassign/users', requestBody)
-    } catch {
-      setStatusValue(prevStatusValue)
-      console.error('서버 상태 업데이트 불가')
-    }
-  }
+  const onClickStatus = useCallback(
+    async (newStatus: StatusType) => {
+      if (isNull(user)) {
+        alert(NO_USER)
+        removeItemFromLocalStorage(LOCAL_KEY.USER)
+        return
+      }
+
+      const uuid = user.uuid
+      const prevStatus = user.status
+
+      const requestBody = {
+        action: 'update',
+        uuid,
+        status: newStatus,
+      }
+      try {
+        // 🏷️ 추후에 주석 제거
+        // await axiosInstance().put('/prassign/users', requestBody)
+        setUserStatus(newStatus)
+      } catch {
+        setUserStatus(prevStatus)
+        console.error('서버 상태 업데이트 불가')
+      }
+    },
+    [user, setUserStatus],
+  )
 
   const onClickExit = useCallback(async () => {
-    const uuid = localStorage.getItem('uuid')
+    if (isNull(user)) {
+      alert(NO_USER)
+      removeItemFromLocalStorage(LOCAL_KEY.USER)
+      return
+    }
+    const uuid = user.uuid
     try {
-      await axiosInstance().delete(`/prassign/users`, { params: { uuid } })
-      localStorage.removeItem('authKey')
-      localStorage.removeItem('uuid')
-      localStorage.removeItem('userName')
+      // 🏷️ 추후에 주석 제거
+      // await axiosInstance().delete(`/prassign/users`, {
+      //   params: { uuid },
+      // })
+      removeItemFromLocalStorage(LOCAL_KEY.USER)
       navigate('/')
     } catch {
       console.error('네트워크 에러로.. 퇴장 불가')
     }
-  }, [navigate])
+  }, [navigate, user])
 
   const statusNColorMap: Record<
     StatusType,
@@ -68,8 +87,8 @@ const User = () => {
         <S.UserInfoContainer>
           <Typography variant="bigInfo">{userName} 님은</Typography>
           <Typography variant="bigInfo">
-            <HighlightText color={statusNColorMap[statusValue]}>
-              {MAP_STATUS_TO_LABEL[statusValue]}
+            <HighlightText color={statusNColorMap[userStatus]}>
+              {MAP_STATUS_TO_LABEL[userStatus]}
             </HighlightText>{' '}
             상태입니다.
           </Typography>
