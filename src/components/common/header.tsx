@@ -8,7 +8,7 @@ const Header = () => {
   }
   return (
     <S.Wrapper>
-      <S.ServiceName>Parssign</S.ServiceName>
+      <S.ServiceName>Prassign</S.ServiceName>
       {!isInHome && (
         <S.GoHomeButton onClick={onClickHome}>홈으로;;</S.GoHomeButton>
       )}
