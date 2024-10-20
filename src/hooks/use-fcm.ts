@@ -79,12 +79,12 @@ export const useFCM = () => {
 
     const unsubscribe = onMessage(messaging, (payload) => {
       setPartialState({ message: payload })
+      console.log('payload', payload)
 
       // 소리 재생
       if (audioRef.current) {
         audioRef.current.play().catch((error) => {
           console.error('Error playing audio:', error)
-          // 자동 재생 정책으로 인한 오류인 경우 사용자 상호작용 요청
           if (error.name === 'NotAllowedError') {
             alert(
               '크롬 브라우저를 이용하면 오디오 알림 기능을 사용할 수 있습니다.',
