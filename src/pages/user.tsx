@@ -8,6 +8,7 @@ import { ARRAY_STATUS, MAP_STATUS_TO_LABEL } from '../constants/status'
 import { LOCAL_KEY } from '../constants/web-storage-key'
 import { useFCM } from '../hooks/use-fcm'
 import { useUser } from '../hooks/use-user'
+import { axiosInstance } from '../libs/axios/axios-instance'
 import type { StatusType } from '../types/status-code.type'
 import { isNull } from '../utils/type-guard'
 import { removeItemFromLocalStorage } from '../utils/web-storage-manager'
@@ -38,8 +39,7 @@ const User = () => {
         status: newStatus,
       }
       try {
-        // 🏷️ 추후에 주석 제거
-        // await axiosInstance().put('/prassign/users', requestBody)
+        await axiosInstance().put('/prassign/users', requestBody)
         setUserStatus(newStatus)
       } catch {
         setUserStatus(prevStatus)
@@ -57,10 +57,9 @@ const User = () => {
     }
     const uuid = user.uuid
     try {
-      // 🏷️ 추후에 주석 제거
-      // await axiosInstance().delete(`/prassign/users`, {
-      //   params: { uuid },
-      // })
+      await axiosInstance().delete(`/prassign/users`, {
+        params: { uuid },
+      })
       removeItemFromLocalStorage(LOCAL_KEY.USER)
       navigate('/')
     } catch {

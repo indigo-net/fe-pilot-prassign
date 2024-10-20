@@ -6,6 +6,7 @@ import Input from '../components/common/input'
 import PinInput from '../components/user-authentication/pin-input'
 import { LOCAL_KEY } from '../constants/web-storage-key'
 import { useFCM } from '../hooks/use-fcm'
+import { axiosInstance } from '../libs/axios/axios-instance'
 import type { UserType } from '../types/user'
 import { setItemToLocalStorage } from '../utils/web-storage-manager'
 import { S } from './user-authentication.s'
@@ -31,11 +32,11 @@ const UserAuthentication = () => {
         status: 'REST',
         fcmToken,
       }
-      // 🏷️ 추후에 주석 제거
-      // await axiosInstance().post('/prassign/users', {
-      //   action: 'regist',
-      //   user,
-      // })
+
+      await axiosInstance().post('/prassign/users', {
+        action: 'regist',
+        user,
+      })
 
       setItemToLocalStorage<UserType>(LOCAL_KEY.USER, user)
       navigate('/user')
