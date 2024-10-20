@@ -87,7 +87,7 @@ const User = () => {
           </BottomBar.NavigationItem>
         ))}
         <BottomBar.NavigationItem color="alert" onClick={onClickExit}>
-          퇴장
+          EXIT
         </BottomBar.NavigationItem>
       </BottomBar.NavigationList>
     </S.PageContainer>

@@ -32,7 +32,7 @@ const Manager = () => {
 
   const onClickPINItem = useCallback(() => setMode('pin'), [])
   const onClickListItem = useCallback(() => setMode('list'), [])
-  const onClickExit = useCallback(async () => {
+  const onClickEnd = useCallback(async () => {
     try {
       await axiosInstance().delete('/prassign/users', {
         params: {
@@ -161,8 +161,8 @@ const Manager = () => {
         <BottomBar.NavigationItem color="pink" onClick={onClickListItem}>
           LIST
         </BottomBar.NavigationItem>
-        <BottomBar.NavigationItem color="alert" onClick={onClickExit}>
-          종료
+        <BottomBar.NavigationItem color="alert" onClick={onClickEnd}>
+          END
         </BottomBar.NavigationItem>
       </BottomBar.NavigationList>
     </S.PageContainer>
