@@ -7,8 +7,18 @@ const PageContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 50px;
+  gap: 20px;
   padding: 20px;
+`
+
+const ListContentContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: fit-content;
+  gap: 10px;
 `
 
 const Content = styled.div`
@@ -16,11 +26,12 @@ const Content = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
-  align-items: flex-start; // 변경: 위쪽 정렬
-  overflow: visible; // 변경: 내부 컴포넌트의 스크롤 허용
+  align-items: flex-start;
+  overflow: visible;
 `
 
 export const S = {
   PageContainer,
+  ListContentContainer,
   Content,
 }

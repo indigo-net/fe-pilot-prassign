@@ -1,6 +1,7 @@
 import { useCallback, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import BottomBar from '../components/common/bottom-bar'
+import Button from '../components/common/button'
 import Checkbox from '../components/common/checkbox'
 import HighlightText from '../components/common/highlight-text'
 import Typography from '../components/common/typography'
@@ -34,6 +35,9 @@ const Manager = () => {
       console.error('네트워크 문제로,, 종료 실패')
     }
   }, [])
+  const onClickSendNotification = useCallback(() => {
+    console.log('알림보내기')
+  }, [])
 
   const mapCodeToColor: Record<
     StatusType,
@@ -44,7 +48,7 @@ const Manager = () => {
     GAME: 'purple',
   }
   const isError = !isLoading && (!isNull(error) || isUndefined(userList))
-  const isUserList = !isLoading && !isError
+  const isUserList = !isError && !isLoading
 
   return (
     <S.PageContainer>
@@ -56,7 +60,7 @@ const Manager = () => {
           <PinPrinter pin="1111" />
         </>
       ) : (
-        <>
+        <S.ListContentContainer>
           {isError && (
             <JustArea>
               <Typography variant="captionBold">에러 발생..</Typography>
@@ -68,30 +72,33 @@ const Manager = () => {
             </JustArea>
           )}
           {isUserList && (
-            <UserList.ListArea>
-              {userList?.map((user) => {
-                const statusLabel =
-                  MAP_STATUS_TO_LABEL[user.status as StatusType] || ''
-                const statusColor =
-                  mapCodeToColor[user.status as StatusType] || 'skyBlue'
-                return (
-                  <UserList.UserItem key={user.uuid}>
-                    <Typography variant="captionBold">
-                      {user.userName}
-                    </Typography>
+            <>
+              <UserList.ListArea>
+                {userList?.map((user) => {
+                  const statusLabel =
+                    MAP_STATUS_TO_LABEL[user.status as StatusType] || ''
+                  const statusColor =
+                    mapCodeToColor[user.status as StatusType] || 'skyBlue'
+                  return (
+                    <UserList.UserItem key={user.uuid}>
+                      <Typography variant="captionBold">
+                        {user.userName}
+                      </Typography>
 
-                    <Typography variant="captionBold">
-                      <HighlightText color={statusColor}>
-                        {statusLabel}
-                      </HighlightText>
-                    </Typography>
-                    <Checkbox disabled={user.status !== 'READY'} />
-                  </UserList.UserItem>
-                )
-              })}
-            </UserList.ListArea>
+                      <Typography variant="captionBold">
+                        <HighlightText color={statusColor}>
+                          {statusLabel}
+                        </HighlightText>
+                      </Typography>
+                      <Checkbox disabled={user.status !== 'READY'} />
+                    </UserList.UserItem>
+                  )
+                })}
+              </UserList.ListArea>
+              <Button onClick={onClickSendNotification}>알림보내기</Button>
+            </>
           )}
-        </>
+        </S.ListContentContainer>
       )}
       <BottomBar.NavigationList>
         <BottomBar.NavigationItem color="purple" onClick={onClickPINItem}>
