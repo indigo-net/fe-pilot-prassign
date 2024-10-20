@@ -1,18 +1,30 @@
 import { useNavigate } from 'react-router-dom'
 import Button from '../components/common/button'
-import { useFCM } from '../hooks/use-fcm'
+import CopyrightNotice from '../components/home/copyright-notice'
+import ProjectDescription from '../components/home/project-description'
+import ProjectTitle from '../components/home/project-title'
 import { S } from './home.s'
 
 const Home = () => {
   const navigate = useNavigate()
 
-  const { token, message, requestNotificationPermission } = useFCM()
-  console.log(token)
-  console.log(message)
+  const onClickManager = () => navigate('/manager')
+  const onClickUser = () => navigate('/user')
 
   return (
     <S.PageContainer>
-      <Button onClick={requestNotificationPermission}>메시지</Button>
+      <h1>Home</h1>
+      <S.ProjectSignatureContainer>
+        <ProjectTitle />
+        <ProjectDescription />
+      </S.ProjectSignatureContainer>
+      <S.ButtonContainer>
+        <Button onClick={onClickUser}>일반부원</Button>
+        <Button variant="secondary" onClick={onClickManager}>
+          운영진
+        </Button>
+      </S.ButtonContainer>
+      <CopyrightNotice />
     </S.PageContainer>
   )
 }
