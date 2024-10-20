@@ -18,7 +18,8 @@ messaging.onBackgroundMessage((payload) => {
   const notificationTitle = payload.notification.title
   const notificationOptions = {
     body: payload.notification.body,
-    icon: '/firebase-logo.png',
+    sound: '/audio/klaxon.mp3', // 소리 파일 경로 추가
+    vibrate: [200, 100, 200], // 진동 패턴 추가 (선택사항)
   }
 
   self.registration.showNotification(notificationTitle, notificationOptions)

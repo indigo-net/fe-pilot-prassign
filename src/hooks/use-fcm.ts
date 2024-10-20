@@ -1,7 +1,6 @@
 import type { Messaging } from 'firebase/messaging'
 import { getToken, onMessage } from 'firebase/messaging'
 import { useCallback, useEffect, useRef, useState } from 'react'
-import klaxonSound from '../assets/audio/klaxon.mp3'
 import {
   NO_FCM_TOKEN,
   NO_FIREBASE_CONTEXT,
@@ -20,13 +19,13 @@ type FCMStateType = {
 
 export const useFCM = () => {
   const { messaging } = useFirebaseStore()
-  const audioRef = useRef<HTMLAudioElement | null>(null)
   const [state, setState] = useState<FCMStateType>({
     token: null,
     isLoading: false,
     error: null,
     message: null,
   })
+  const audioRef = useRef<HTMLAudioElement | null>(null)
 
   const setPartialState = (partialState: Partial<FCMStateType>) => {
     setState((prevState) => ({ ...prevState, ...partialState }))
@@ -72,16 +71,24 @@ export const useFCM = () => {
   useEffect(() => {
     if (!messaging) return
 
-    audioRef.current = new Audio(klaxonSound)
+    // 오디오 객체 생성 및 로드
+    audioRef.current = new Audio('/audio/klaxon.mp3')
+    audioRef.current.load()
 
     const unsubscribe = onMessage(messaging, (payload) => {
       setPartialState({ message: payload })
 
-      // 소리 내기
+      // 소리 재생
       if (audioRef.current) {
-        audioRef.current
-          .play()
-          .catch((error) => console.error('Error playing audio:', error))
+        audioRef.current.play().catch((error) => {
+          console.error('Error playing audio:', error)
+          // 자동 재생 정책으로 인한 오류인 경우 사용자 상호작용 요청
+          if (error.name === 'NotAllowedError') {
+            alert(
+              '크롬 브라우저를 이용하면 오디오 알림 기능을 사용할 수 있습니다.',
+            )
+          }
+        })
       }
       // alert 표시
       alert(`${payload.notification?.title}\n${payload.notification?.body}`)
