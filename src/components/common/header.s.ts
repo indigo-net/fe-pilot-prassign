@@ -20,7 +20,15 @@ const ServiceName = styled.p`
   font-size: ${FONT_SIZE.small};
 `
 
+const GoHomeButton = styled.button`
+  color: ${COLOR.grayscale[500]};
+  font-size: ${FONT_SIZE.tiny};
+  font-weight: ${FONT_WEIGHT.regular};
+  cursor: pointer;
+`
+
 export const S = {
   Wrapper,
   ServiceName,
+  GoHomeButton,
 }
