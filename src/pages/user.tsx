@@ -15,7 +15,7 @@ const User = () => {
     return localStorage.getItem('userName') ?? 'Unknown Player'
   }, [])
 
-  const onClickStatus = async (status: StatusType) => {
+  const onClickStatus = async (newStatus: StatusType) => {
     const prevStatusValue = statusValue
 
     const action = 'update'
@@ -23,10 +23,10 @@ const User = () => {
     const requestBody = {
       action,
       uuid,
-      status: statusValue,
+      status: newStatus,
     }
     try {
-      setStatusValue(status)
+      setStatusValue(newStatus)
       await axiosInstance().put('/prassign/users', requestBody)
     } catch {
       setStatusValue(prevStatusValue)
