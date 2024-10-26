@@ -9,7 +9,7 @@ const Home = () => {
   const navigate = useNavigate()
 
   const onClickManager = () => navigate('/manager')
-  const onClickUser = () => navigate('/user')
+  const onClickUser = () => navigate('/user/authentication')
 
   return (
     <S.PageContainer>
