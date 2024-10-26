@@ -22,7 +22,7 @@ export const useFCMToken = () => {
         const token = await getToken(messaging, {
           vapidKey: import.meta.env.VITE_FIREBASE_VAPID_KEY,
         })
-        if (!token) throw new Error(NO_FCM_TOKEN)
+        if (isNull(token)) throw new Error(NO_FCM_TOKEN)
         return token
       } catch {
         throw new Error(NO_FCM_TOKEN)
