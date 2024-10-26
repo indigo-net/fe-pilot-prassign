@@ -5,7 +5,8 @@ import HighlightText from '../components/common/highlight-text'
 import Typography from '../components/common/typography'
 import { NO_USER } from '../constants/alert-message'
 import { ARRAY_STATUS, MAP_STATUS_TO_LABEL } from '../constants/status'
-import { useFCM } from '../hooks/use-fcm'
+import { useFCMMessage } from '../hooks/use-fcm-message'
+import { useNotification } from '../hooks/use-notification'
 import { useUser } from '../hooks/use-user'
 import { axiosInstance } from '../libs/axios/axios-instance'
 import type { StatusType } from '../types/status-code.type'
@@ -15,7 +16,12 @@ import { S } from './user.s'
 const User = () => {
   const navigate = useNavigate()
   const { user, setUserStatus, nullifyUser } = useUser()
-  useFCM()
+
+  // 알림 권한 요청
+  useNotification()
+
+  // FCM 메시지 수신 설정
+  useFCMMessage({ fcmToken: user?.fcmToken ?? null })
 
   const userName = user?.userName ?? 'Unknown Player'
   const userStatus = user?.status ?? 'REST'
@@ -40,7 +46,7 @@ const User = () => {
         setUserStatus(newStatus)
       } catch (error) {
         setUserStatus(prevStatus)
-        alert(`잇쿵... 상태 갱신 실패\b${error}`)
+        alert(`잇쿵... 상태 갱신 실패\n${error}`)
       }
     },
     [user, setUserStatus],
@@ -60,7 +66,7 @@ const User = () => {
       nullifyUser()
       navigate('/')
     } catch (error) {
-      alert(`잇쿵... 나가기 실패\b${error}`)
+      alert(`잇쿵... 나가기 실패\n${error}`)
     }
   }, [navigate, user])
 

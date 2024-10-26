@@ -5,7 +5,7 @@ import Button from '../components/common/button'
 import Input from '../components/common/input'
 import PinInput from '../components/user-authentication/pin-input'
 import { LOCAL_KEY } from '../constants/web-storage-key'
-import { useFCM } from '../hooks/use-fcm'
+import { useFCMToken } from '../hooks/use-fcm-token'
 import { axiosInstance } from '../libs/axios/axios-instance'
 import type { UserType } from '../types/user'
 import { setItemToLocalStorage } from '../utils/web-storage-manager'
@@ -13,8 +13,8 @@ import { S } from './user-authentication.s'
 
 const UserAuthentication = () => {
   const navigate = useNavigate()
-  const { requestNotificationPermission } = useFCM()
   const userNameRef = useRef<HTMLInputElement>(null)
+  const { requestToken } = useFCMToken()
 
   const handleSubmit = useCallback(async () => {
     if (!userNameRef.current?.value) {
@@ -23,7 +23,7 @@ const UserAuthentication = () => {
     }
 
     try {
-      const fcmToken = await requestNotificationPermission()
+      const fcmToken = await requestToken()
 
       const user: UserType = {
         uuid: v4(),
@@ -43,7 +43,7 @@ const UserAuthentication = () => {
     } catch (error) {
       alert(`잇쿵...등록 실패 \b${error}`)
     }
-  }, [navigate, requestNotificationPermission])
+  }, [navigate, requestToken])
 
   return (
     <S.PageContainer>
