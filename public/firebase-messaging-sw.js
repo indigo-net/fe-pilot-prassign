@@ -18,9 +18,17 @@ messaging.onBackgroundMessage((payload) => {
   const notificationTitle = payload.notification.title
   const notificationOptions = {
     body: payload.notification.body,
-    sound: '/audio/klaxon.mp3', // 소리 파일 경로 추가
-    vibrate: [200, 100, 200], // 진동 패턴 추가 (선택사항)
+    icon: '/image/apple-touch-icon.png',
+    sound: '/audio/klaxon.mp3',
+    vibrate: [200, 100, 200],
+    silent: false,
   }
 
-  self.registration.showNotification(notificationTitle, notificationOptions)
+  const audio = new Audio('/audio/klaxon.mp3')
+  audio.play().catch((error) => console.log('소리 재생 실패:', error))
+
+  return self.registration.showNotification(
+    notificationTitle,
+    notificationOptions,
+  )
 })
