@@ -20,8 +20,7 @@ messaging.onBackgroundMessage(() => {
   const notificationOptions = {
     body: '빵빵~!! 준비하세요.',
     icon: 'https://github.com/indigo-net/fe-pilot-prassign/blob/main/public/image/apple-touch-icon.png?raw=true',
-    sound:
-      'https://github.com/indigo-net/fe-pilot-prassign/raw/main/public/audio/klaxon.mp3',
+    sound: 'default',
     vibrate: [200, 100, 200],
     silent: false,
   }
