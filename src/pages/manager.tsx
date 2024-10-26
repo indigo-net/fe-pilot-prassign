@@ -40,8 +40,8 @@ const Manager = () => {
         },
       })
       navigate('/')
-    } catch {
-      console.error('네트워크 문제로,, 종료 실패')
+    } catch (error) {
+      alert(`잇쿵... 유저 리스트 삭제 실패\b${error}`)
     }
   }, [])
   const onClickRefresh = useCallback(async () => {

@@ -18,8 +18,8 @@ const ProtectUserPageRoute = () => {
         await axiosInstance().delete(`/prassign/users`, {
           params: { uuid: user.uuid },
         })
-      } catch {
-        console.error('서버에서 유저 삭제 실패')
+      } catch (error) {
+        alert(`잇쿵.. 유저삭제 실패!!\b${error}`)
       }
     }
   }, [nullifyUser, user])

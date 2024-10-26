@@ -40,8 +40,8 @@ const UserAuthentication = () => {
 
       setItemToLocalStorage<UserType>(LOCAL_KEY.USER, user)
       navigate('/user')
-    } catch (err) {
-      console.error('에러 발생:', err)
+    } catch (error) {
+      alert(`잇쿵...등록 실패 \b${error}`)
     }
   }, [navigate, requestNotificationPermission])
 

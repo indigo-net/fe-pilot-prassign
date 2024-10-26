@@ -38,9 +38,9 @@ const User = () => {
       try {
         await axiosInstance().put('/prassign/users', requestBody)
         setUserStatus(newStatus)
-      } catch {
+      } catch (error) {
         setUserStatus(prevStatus)
-        console.error('서버 상태 업데이트 불가')
+        alert(`잇쿵... 상태 갱신 실패\b${error}`)
       }
     },
     [user, setUserStatus],
@@ -59,8 +59,8 @@ const User = () => {
       })
       nullifyUser()
       navigate('/')
-    } catch {
-      console.error('네트워크 에러로.. 퇴장 불가')
+    } catch (error) {
+      alert(`잇쿵... 나가기 실패\b${error}`)
     }
   }, [navigate, user])
 
