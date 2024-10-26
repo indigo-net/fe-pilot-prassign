@@ -22,17 +22,25 @@ const UserAuthentication = () => {
       return
     }
 
+    // FCM 토큰 획득
+    let fcmToken: string
     try {
-      const fcmToken = await requestToken()
+      fcmToken = await requestToken()
+    } catch (error) {
+      alert(`잇쿵...토큰 발급 실패\n${error}`)
+      return
+    }
 
-      const user: UserType = {
-        uuid: v4(),
-        userName: userNameRef.current.value,
-        arriveTimeStamp: Date.now(),
-        status: 'REST',
-        fcmToken,
-      }
+    // 사용자 등록
+    const user: UserType = {
+      uuid: v4(),
+      userName: userNameRef.current.value,
+      arriveTimeStamp: Date.now(),
+      status: 'REST',
+      fcmToken,
+    }
 
+    try {
       await axiosInstance().post('/prassign/users', {
         action: 'regist',
         ...user,
@@ -41,7 +49,7 @@ const UserAuthentication = () => {
       setItemToLocalStorage<UserType>(LOCAL_KEY.USER, user)
       navigate('/user')
     } catch (error) {
-      alert(`잇쿵...등록 실패 \b${error}`)
+      alert(`잇쿵...사용자 등록 실패\n${error}`)
     }
   }, [navigate, requestToken])
 
