@@ -1,5 +1,5 @@
 import { onMessage } from 'firebase/messaging'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import { useFirebaseStore } from '../contexts/firebase-context'
 
 type UseFCMMessageProps = {
@@ -8,7 +8,6 @@ type UseFCMMessageProps = {
 
 export const useFCMMessage = ({ fcmToken }: UseFCMMessageProps) => {
   const { messaging } = useFirebaseStore()
-  const [message, setMessage] = useState<string | null>(null)
   const audioRef = useRef<HTMLAudioElement | null>(null)
 
   useEffect(() => {
@@ -20,27 +19,38 @@ export const useFCMMessage = ({ fcmToken }: UseFCMMessageProps) => {
     audioRef.current.load()
 
     const unsubscribe = onMessage(messaging, () => {
-      const newMessage = '[🚌셔틀버스 X 🦕인디고넷]\n빵빵~!! 준비하세요.'
-      setMessage(newMessage)
+      const title = '[🚌셔틀버스 X 🦕인디고넷]'
+      const body = '빵빵~!! 준비하세요.'
+
+      // 브라우저 알림 표시
+      new Notification(title, {
+        body,
+        icon: '/image/prassign-196x196.png',
+        silent: false,
+        vibrate: [200, 100, 200], // 진동 패턴
+        tag: 'shuttle-notification', // 알림 그룹화
+      } as NotificationOptions)
 
       // 소리 재생
       if (audioRef.current) {
-        audioRef.current.play().catch((error) => {
-          if (error.name === 'NotAllowedError') {
-            alert(
-              '크롬 브라우저를 이용하면 오디오 알림 기능을 사용할 수 있습니다.',
-            )
-          }
-        })
+        const playPromise = audioRef.current.play()
+
+        if (playPromise !== undefined) {
+          playPromise.catch((error) => {
+            if (error.name === 'NotAllowedError') {
+              alert('오디오 재생이 허용되지 않았습니다.')
+            }
+          })
+        }
       }
-      // alert 표시
-      alert(`${newMessage}`)
     })
 
-    return () => unsubscribe()
-  }, [messaging, fcmToken]) // token을 의존성 배열에 추가
-
-  return {
-    message,
-  }
+    return () => {
+      unsubscribe()
+      if (audioRef.current) {
+        audioRef.current.pause()
+        audioRef.current = null
+      }
+    }
+  }, [messaging, fcmToken])
 }
