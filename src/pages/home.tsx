@@ -21,7 +21,7 @@ const Home = () => {
         <ProjectTitle />
         <ProjectDescription />
       </S.ProjectSignatureContainer>
-      <Button onClick={retryPermission} size="fit">
+      <Button onClick={async () => await retryPermission()} size="fit">
         알림권한 요청
       </Button>
       <S.ButtonContainer>
