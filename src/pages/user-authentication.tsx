@@ -14,7 +14,7 @@ import { S } from './user-authentication.s'
 const UserAuthentication = () => {
   const navigate = useNavigate()
   const userNameRef = useRef<HTMLInputElement>(null)
-  const { requestToken } = useFCMToken()
+  const { requestToken, isLoading } = useFCMToken()
 
   const handleSubmit = useCallback(async () => {
     if (!userNameRef.current?.value) {
@@ -23,9 +23,9 @@ const UserAuthentication = () => {
     }
 
     // FCM 토큰 획득
-    let fcmToken: string
+    let fcmToken = ''
     try {
-      fcmToken = await requestToken()
+      fcmToken = (await requestToken()) as string
     } catch (error) {
       alert(`잇쿵...토큰 발급 실패\n${error}`)
       return
@@ -65,7 +65,7 @@ const UserAuthentication = () => {
         <PinInput />
       </S.InputContainer>
       <S.ButtonWrapper>
-        <Button onClick={handleSubmit}>제출</Button>
+        <Button onClick={handleSubmit}>{isLoading ? '처리 중' : '제출'}</Button>
       </S.ButtonWrapper>
     </S.PageContainer>
   )
