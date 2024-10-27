@@ -22,6 +22,8 @@ export const useFCMMessage = ({ fcmToken }: UseFCMMessageProps) => {
       const title = '[🚌셔틀버스 X 🦕인디고넷]'
       const body = '빵빵~!! 준비하세요.'
 
+      alert(`${title}\n${body}`)
+
       // 브라우저 알림 표시
       new Notification(title, {
         body,
