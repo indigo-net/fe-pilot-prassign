@@ -6,7 +6,6 @@ import Typography from '../components/common/typography'
 import { NO_USER } from '../constants/alert-message'
 import { ARRAY_STATUS, MAP_STATUS_TO_LABEL } from '../constants/status'
 import { useFCMMessage } from '../hooks/use-fcm-message'
-import { useNotification } from '../hooks/use-notification'
 import { useUser } from '../hooks/use-user'
 import { axiosInstance } from '../libs/axios/axios-instance'
 import type { StatusType } from '../types/status-code.type'
@@ -16,9 +15,6 @@ import { S } from './user.s'
 const User = () => {
   const navigate = useNavigate()
   const { user, setUserStatus, nullifyUser } = useUser()
-
-  // 알림 권한 요청
-  useNotification()
 
   // FCM 메시지 수신 설정
   useFCMMessage({ fcmToken: user?.fcmToken ?? null })

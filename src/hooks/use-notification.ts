@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react'
 
 export const useNotification = () => {
   const [isNotification, setIsNotification] = useState(
-    Notification.permission === 'granted', // 초기값 설정
+    Notification.permission === 'granted',
   )
 
   const getPermission = useCallback(async () => {
@@ -20,23 +20,49 @@ export const useNotification = () => {
         alert(
           '이전에 알림이 거부되었습니다. 브라우저 설정에서 권한을 변경해주세요.',
         )
-        return false
+        return
       }
 
       const permission = await Notification.requestPermission()
       setIsNotification(permission === 'granted')
+      return permission === 'granted'
     } catch (error) {
       alert(`알림 권한 요청 중 오류: ${error}`)
     }
   }, [])
 
-  useEffect(() => {
-    getPermission()
-  }, [getPermission])
+  // 알림 권한 재요청 메서드
+  const retryPermission = useCallback(async () => {
+    if (Notification.permission === 'granted') {
+      alert('알림 권한이 획득되었습니다.')
+      return
+    }
+
+    // 브라우저 지원 여부 확인
+    if (!('Notification' in window)) {
+      alert('이 브라우저는 알림을 지원하지 않습니다.')
+      return
+    }
+
+    try {
+      const permission = await Notification.requestPermission()
+      setIsNotification(permission === 'granted')
+
+      if (permission === 'denied') {
+        alert(
+          '알림 권한이 거부되었습니다. 브라우저 설정에서 권한을 변경해주세요.',
+        )
+      }
+    } catch (error) {
+      alert(`알림 권한 재요청 중 오류: ${error}`)
+    }
+  }, [])
 
   useEffect(() => {
-    if (!isNotification && Notification.permission !== 'default') {
-      alert('알림 권한 획득에 실패하여, 기능을 사용하지 못할 수 있습니다.')
+    if (Notification.permission === 'default') {
+      getPermission()
     }
-  }, [isNotification])
+  }, [])
+
+  return { retryPermission }
 }

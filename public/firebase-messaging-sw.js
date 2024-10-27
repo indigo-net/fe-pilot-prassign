@@ -10,6 +10,7 @@ firebase.initializeApp({
   storageBucket: 'prassign-92b35.appspot.com',
   messagingSenderId: '123456789012',
   appId: '1:123456789012:web:12345678901234567890',
+  measurementId: 'G-B09L6P4H6J',
 })
 
 const messaging = firebase.messaging()
