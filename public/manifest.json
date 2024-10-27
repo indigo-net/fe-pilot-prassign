@@ -1,0 +1,42 @@
+{
+  "short_name": "PRASSIGN",
+  "name": "PRASSIGN",
+  "description": "이름을 등록해주세요. 운영진 분들이 당신의 이름을 불러드립니다.",
+  "icons": [
+    {
+      "src": "/image/prassign-16x16.png",
+      "sizes": "16x16",
+      "type": "image/png"
+    },
+    {
+      "src": "/image/prassign-32x32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "/image/prassign-180x180.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "/image/prassign-196x196.png",
+      "sizes": "196x196",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/image/prassign-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#101432",
+  "background_color": "#2F2F2F",
+  "orientation": "portrait",
+  "scope": "/",
+  "categories": ["utilities"],
+  "apple-mobile-web-app-status-bar": "#101432"
+}

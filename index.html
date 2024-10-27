@@ -2,7 +2,9 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- OG 태그 -->
     <meta property="og:url" content="https://pilot-prassign.vercel.app" />
     <meta property="og:title" content="PRASSIGN" />
     <meta name="author" content="indigo-net" />
@@ -10,26 +12,54 @@
       property="og:description"
       content="이름을 등록해주세요. 운영진 분들이 당신의 이름을 불러드립니다.."
     />
-    <meta property="og:image" content="/image/prassign-og.svg" />
+    <meta property="og:image" content="/image/prassign.svg" />
+
+    <!-- 파비콘 -->
     <link rel="icon" type="image/svg+xml" href="/image/favicon.svg" />
     <link
       rel="icon"
       type="image/png"
       sizes="32x32"
-      href="/image/favicon-32x32.png"
+      href="/image/prassign-32x32.png"
     />
     <link
       rel="icon"
       type="image/png"
       sizes="16x16"
-      href="/image/favicon-16x16.png"
+      href="/image/prassign-16x16.png"
     />
+
+    <!-- PWA 관련 태그 -->
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#ffffff" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
     <link
       rel="apple-touch-icon"
       sizes="180x180"
-      href="/image/apple-touch-icon.png"
+      href="/image/prassign-180x180.png"
     />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- iOS 스플래시 스크린 지원 -->
+    <meta name="apple-mobile-web-app-title" content="PRASSIGN" />
+    <!-- 설명 메타 태그 -->
+    <meta
+      name="description"
+      content="이름을 등록해주세요. 운영진 분들이 당신의 이름을 불러드립니다."
+    />
+
+    <!-- PWA 상태바 색상 -->
+    <meta
+      name="theme-color"
+      content="#101432"
+      media="(prefers-color-scheme: dark)"
+    />
+    <meta
+      name="theme-color"
+      content="#101432"
+      media="(prefers-color-scheme: light)"
+    />
+
     <title>PRASSIGN</title>
   </head>
   <body>
