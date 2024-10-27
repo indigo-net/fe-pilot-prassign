@@ -20,7 +20,7 @@ messaging.onBackgroundMessage(() => {
 
   const notificationOptions = {
     body: '빵빵~!! 준비하세요.',
-    icon: 'https://github.com/indigo-net/fe-pilot-prassign/blob/main/public/image/apple-touch-icon.png?raw=true',
+    icon: '/image/prassign-196x196.png', // 알림 아이콘 경로 수정
     sound: 'default',
     vibrate: [200, 100, 200],
     silent: false,
@@ -29,5 +29,22 @@ messaging.onBackgroundMessage(() => {
   return self.registration.showNotification(
     notificationTitle,
     notificationOptions,
+  )
+})
+
+// 캐시할 파일들
+const CACHE_NAME = 'prassign-v1'
+const urlsToCache = [
+  '/',
+  '/index.html',
+  '/manifest.json',
+  '/image/prassign.svg',
+  '/image/prassign-196x196.png',
+]
+
+// 설치 시 캐시
+self.addEventListener('install', (event) => {
+  event.waitUntil(
+    caches.open(CACHE_NAME).then((cache) => cache.addAll(urlsToCache)),
   )
 })
