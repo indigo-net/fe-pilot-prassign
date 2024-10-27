@@ -12,14 +12,14 @@ export const useNotification = () => {
       }
 
       // 이미 거부된 상태라면 다시 요청하지 않음
-      if (Notification.permission === 'denied') {
+      if (window.Notification.permission === 'denied') {
         alert(
           '이전에 알림이 거부되었습니다. 브라우저 설정에서 권한을 변경해주세요.',
         )
         return
       }
 
-      const permission = await Notification.requestPermission()
+      const permission = await window.Notification.requestPermission()
       return permission === 'granted'
     } catch (error) {
       alert(`알림 권한 요청 중 오류: ${error}`)
@@ -28,7 +28,7 @@ export const useNotification = () => {
 
   // 알림 권한 재요청 메서드
   const retryPermission = useCallback(async () => {
-    if (Notification.permission === 'granted') {
+    if (window.Notification.permission === 'granted') {
       alert('알림 권한이 획득되었습니다.')
       return
     }
@@ -40,7 +40,7 @@ export const useNotification = () => {
     }
 
     try {
-      const permission = await Notification.requestPermission()
+      const permission = await window.Notification.requestPermission()
       if (permission === 'denied') {
         alert(
           '알림 권한이 거부되었습니다. 브라우저 설정에서 권한을 변경해주세요.',
@@ -52,7 +52,10 @@ export const useNotification = () => {
   }, [])
 
   useEffect(() => {
-    if (Notification.permission === 'default') {
+    if (
+      'Notification' in window &&
+      window.Notification.permission === 'default'
+    ) {
       getPermission()
     }
   }, [])
