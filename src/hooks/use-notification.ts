@@ -1,10 +1,6 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect } from 'react'
 
 export const useNotification = () => {
-  const [isNotification, setIsNotification] = useState(
-    Notification.permission === 'granted',
-  )
-
   const getPermission = useCallback(async () => {
     try {
       // 브라우저 지원 여부 확인
@@ -24,7 +20,6 @@ export const useNotification = () => {
       }
 
       const permission = await Notification.requestPermission()
-      setIsNotification(permission === 'granted')
       return permission === 'granted'
     } catch (error) {
       alert(`알림 권한 요청 중 오류: ${error}`)
@@ -46,8 +41,6 @@ export const useNotification = () => {
 
     try {
       const permission = await Notification.requestPermission()
-      setIsNotification(permission === 'granted')
-
       if (permission === 'denied') {
         alert(
           '알림 권한이 거부되었습니다. 브라우저 설정에서 권한을 변경해주세요.',
